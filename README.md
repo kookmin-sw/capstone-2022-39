@@ -10,7 +10,10 @@
 따라서 다양한 곳에 흩어진 일자리 정보를 취합하여 중·장년층과 노인분들이 보기 편리한 방식과 디자인으로 일자리 정보를 제공해준다.
 
 ## 2. Abstract
-#### Web Service Platform for middle-aged and elderly people
+#### Hiring Web Service Platform for Elderly and Middle-aged
+Existing hiring platforms have complex structures, which causes elderly and middle-aged people to experience difficulties using these platforms.
+Most hiring information of elderlies is offered by the elderly-related organization, and various organization of each area takes a long time to get the information that the client wants.
+Therefore, this Hiring Web Service Platform offers information on hiring positions from scattered information and shows the information in an elder-friendly way.
 
 ## 3. 소개 영상
 
@@ -19,14 +22,18 @@
 ## 4. 팀 소개
 
 * 김영훈
+  
+![yg](https://user-images.githubusercontent.com/28584171/160181202-f8025a14-24c7-4e96-86cf-d3c3d1184320.jpg)
 ```
 학번: 20171597
 역할: Back-end 개발
 ```
-* 김학균
+* 김학균  
+  
+![hy](https://user-images.githubusercontent.com/28584171/160181211-c762fbf9-7aa5-486f-8d39-a79043004c96.jpg)
 ```
 학번: 20171607
-역할: Back-end 개발 (데이터 수집 및 분류 자동화 시스템 개발)
+역할: 데이터 수집 및 분류 자동화 시스템 개발
 ```
 * 홍재연
 ```
