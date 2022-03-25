@@ -27,6 +27,7 @@ Therefore, this Hiring Web Service Platform offers information on hiring positio
 ```
 학번: 20171597
 역할: Back-end 개발
+E-mail: the_basic_@kookmin.ac.kr
 ```
 * 김학균  
   
@@ -34,11 +35,13 @@ Therefore, this Hiring Web Service Platform offers information on hiring positio
 ```
 학번: 20171607
 역할: 데이터 수집 및 분류 자동화 시스템 개발
+E-mail: gkrrbs1018@kookmin.ac.kr
 ```
 * 홍재연
 ```
 학번: 20181709
 역할: Front-end 개발
+E-mail: ddrrff@kookmin.ac.kr
 ```
 
 ## 5. 사용법
