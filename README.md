@@ -1,4 +1,4 @@
-# Project Name
+# 일간지 :orange:
 팀페이지 주소: https://kookmin-sw.github.io/capstone-2022-39/ 
 
 
