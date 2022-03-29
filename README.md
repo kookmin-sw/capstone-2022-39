@@ -1,4 +1,4 @@
-# 일간지 :orange:
+# 일간지 🍊
 팀페이지 주소: https://kookmin-sw.github.io/capstone-2022-39/ 
 
 
