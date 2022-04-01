@@ -41,6 +41,7 @@ E-mail: gkrrbs1018@kookmin.ac.kr
 
 * 홍재연
   
+![홍재연](https://user-images.githubusercontent.com/39540473/161184136-0909bf62-f0ec-4d46-b803-e093b3442ac7.jpg)
 ```
 학번: 20181709
 역할: Front-end 개발
