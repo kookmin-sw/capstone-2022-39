@@ -23,7 +23,7 @@ Therefore, this Hiring Web Service Platform offers information on hiring positio
 
 * 김영훈
   
-![yg](https://user-images.githubusercontent.com/28584171/160181202-f8025a14-24c7-4e96-86cf-d3c3d1184320.jpg)
+![YH](https://user-images.githubusercontent.com/39540473/161184896-53483839-c4f5-49bd-ba27-473f073ffa89.jpg)
 ```
 학번: 20171597
 역할: Back-end 개발
@@ -31,8 +31,8 @@ E-mail: the_basic_@kookmin.ac.kr
 ```
 
 * 김학균
-  
-![hy](https://user-images.githubusercontent.com/28584171/160181211-c762fbf9-7aa5-486f-8d39-a79043004c96.jpg)
+
+![학균](https://user-images.githubusercontent.com/39540473/161184846-43312d4c-d8ab-48d7-942f-7e5d570d5887.jpg) 
 ```
 학번: 20171607
 역할: 데이터 수집 및 분류 자동화 시스템 개발
