@@ -16,8 +16,9 @@ Most hiring information of elderlies is offered by the elderly-related organizat
 Therefore, this Hiring Web Service Platform offers information on hiring positions from scattered information and shows the information in an elder-friendly way.
 
 ## 3. 소개 영상
+### 프로젝트 소개 영상  
+[![image](https://user-images.githubusercontent.com/28584171/161481985-cf1c944f-0219-4932-81c1-7176b9e905cd.png)](https://youtu.be/FcUZ4Q2Bfds)
 
-프로젝트 소개하는 영상을 추가하세요
 
 ## 4. 팀 소개
 
@@ -50,8 +51,8 @@ E-mail: ddrrff@kookmin.ac.kr
 
 ## 5. 사용법
 
-소스코드 제출시 설치법이나 사용법을 작성하세요.
+추가 예정
 
 ## 6. 기타
 
-협업 방법 논의 : forking workflow
+협업 방법 : Forking Workflow
