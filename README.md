@@ -17,7 +17,10 @@ Therefore, this Hiring Web Service Platform offers information on hiring positio
 
 ## 3. 소개 영상
 ### 프로젝트 소개 영상  
-[![image](https://user-images.githubusercontent.com/28584171/161481985-cf1c944f-0219-4932-81c1-7176b9e905cd.png)](https://youtu.be/FcUZ4Q2Bfds)
+[![image](https://user-images.githubusercontent.com/28584171/162363705-2d28d091-039f-4586-9c15-f1916024c09f.png)](https://youtu.be/FcUZ4Q2Bfds)
+
+### 중간 발표 영상
+[![image](https://user-images.githubusercontent.com/28584171/162363586-5bbf2622-35f9-4a86-b870-b8783e000397.png)](https://www.youtube.com/watch?v=dYVHX2gFoWc)
 
 
 ## 4. 팀 소개
