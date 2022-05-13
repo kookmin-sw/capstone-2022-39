@@ -57,9 +57,9 @@ if __name__ == '__main__':
     print(announcement_list_Seoul_Eunpyeong)
     announcement_list.extend(announcement_list_Seoul_Eunpyeong)
 
-    announcement_list_Here = w_Country.Here.main(driver)
-    print(announcement_list_Here)
-    announcement_list.extend(announcement_list_Here)
+    # announcement_list_Here = w_Country.Here.main(driver)
+    # print(announcement_list_Here)
+    # announcement_list.extend(announcement_list_Here)
 
     announcement_list_Worknet = w_Country.Worknet.main()
     print(announcement_list_Worknet)

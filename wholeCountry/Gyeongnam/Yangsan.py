@@ -10,7 +10,7 @@ from openpyxl import Workbook
 from wholeCountry.areas_of_recruitment import areas_of_recruitment
 
 # 통합문서 열기
-xlsx = Workbook()
+# xlsx = Workbook()
 
 
 # 리스트에서 상세 페이지로 갈 수 있는 URL 추출
@@ -112,10 +112,10 @@ def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, 
 
             announcement_list_Gyeongnam_Yangsan.append(data)
 
-            detail_page_text.append(
-                [detail_title, detail_link_connect[0], workplace, recruitment_staff + "/" + gender + "/" + age,
-                 recruitment_field, qualification_license, job_specifications, employment, wages, business_hours,
-                 recruiter, contact_address])
+            # detail_page_text.append(
+            #     [detail_title, detail_link_connect[0], workplace, recruitment_staff + "/" + gender + "/" + age,
+            #      recruitment_field, qualification_license, job_specifications, employment, wages, business_hours,
+            #      recruiter, contact_address])
 
     return detail_page_text, announcement_list_Gyeongnam_Yangsan
 
@@ -145,11 +145,11 @@ def main(driver):
     time.sleep(3)
 
     # 시트 만들기
-    xlsx.create_sheet("양산노인일자리창출지원센터")
-    sheet = xlsx["양산노인일자리창출지원센터"]
-    sheet.append(['제목', 'URL', '근무지', '모집인원', '모집분야', '우대사항',
-                  '내용', '고용형태', '급여액', '근무시간', '채용담당자',
-                  '연락처'])
+    # xlsx.create_sheet("양산노인일자리창출지원센터")
+    # sheet = xlsx["양산노인일자리창출지원센터"]
+    # sheet.append(['제목', 'URL', '근무지', '모집인원', '모집분야', '우대사항',
+    #               '내용', '고용형태', '급여액', '근무시간', '채용담당자',
+    #               '연락처'])
 
     # dict type의 공고를 담기 위한 리스트 선언
     announcement_list_Gyeongnam_Yangsan = []
@@ -163,17 +163,18 @@ def main(driver):
     for link in next_link:
         detail_link_list = extract_url(int(steady_number), index)
         detail_page_text, announcement_list_Gyeongnam_Yangsan = approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Gyeongnam_Yangsan)
-        for page_text in detail_page_text:
-            sheet.append(page_text)
+
+        # for page_text in detail_page_text:
+        #     sheet.append(page_text)
 
         driver.get(link)
         index = index + 1
         time.sleep(2)
 
-    del xlsx['Sheet']  # 기본 시트 삭제
-    filename = "C:/Python/" + "양산노인일자리창출지원센터" + "_NewList.xlsx"
-    xlsx.save(filename)  # 통합문서 저장
-    xlsx.close()  # 통합문서 종료
+    # del xlsx['Sheet']  # 기본 시트 삭제
+    # filename = "C:/Python/" + "양산노인일자리창출지원센터" + "_NewList.xlsx"
+    # xlsx.save(filename)  # 통합문서 저장
+    # xlsx.close()  # 통합문서 종료
 
     # driver.close()
     # driver.quit()

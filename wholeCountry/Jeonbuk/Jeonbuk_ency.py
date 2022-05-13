@@ -9,7 +9,7 @@ from openpyxl import Workbook
 from wholeCountry.areas_of_recruitment import areas_of_recruitment
 
 # 통합문서 열기
-xlsx = Workbook()
+# xlsx = Workbook()
 
 
 # 공고 내용을 상세히 파악하기 위해 element를 이용해 리스트에 접근
@@ -143,11 +143,11 @@ def main(driver):
     time.sleep(5)
 
     # 시트 만들기
-    xlsx.create_sheet("사)대한노인회전북취업지원센터")
-    sheet = xlsx["사)대한노인회전북취업지원센터"]
-    sheet.append(['제목', 'URL', '근무지', '모집인원', '모집분야', '우대사항',
-                  '내용', '고용형태', '급여액', '근무시간', '채용담당자',
-                  '연락처'])
+    # xlsx.create_sheet("사)대한노인회전북취업지원센터")
+    # sheet = xlsx["사)대한노인회전북취업지원센터"]
+    # sheet.append(['제목', 'URL', '근무지', '모집인원', '모집분야', '우대사항',
+    #               '내용', '고용형태', '급여액', '근무시간', '채용담당자',
+    #               '연락처'])
 
     # dict type의 공고를 담기 위한 리스트 선언
     announcement_list_Jeonbuk_Jeonbuk_ency = []
@@ -164,17 +164,17 @@ def main(driver):
         detail_link_list = extract_url(notices)
         detail_page_text, announcement_list_Jeonbuk_Jeonbuk_ency = approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Jeonbuk_Jeonbuk_ency)
 
-        for link_list, page_text in zip(detail_link_list, detail_page_text):
-            sheet.append(page_text)
+        # for link_list, page_text in zip(detail_link_list, detail_page_text):
+        #     sheet.append(page_text)
 
         driver.get(detail_link[index])
         index = index + 1
         time.sleep(3)
 
-    del xlsx['Sheet']  # 기본 시트 삭제
-    filename = "C:/Python/" + "사)대한노인회전북취업지원센터" + "_NewList.xlsx"
-    xlsx.save(filename)  # 통합 문서 저장
-    xlsx.close()  # 통합 문서 종료
+    # del xlsx['Sheet']  # 기본 시트 삭제
+    # filename = "C:/Python/" + "사)대한노인회전북취업지원센터" + "_NewList.xlsx"
+    # xlsx.save(filename)  # 통합 문서 저장
+    # xlsx.close()  # 통합 문서 종료
 
     # driver.close()
     # driver.quit()

@@ -11,7 +11,7 @@ import re
 from konlpy.tag import Okt
 
 # 통합문서 열기
-xlsx = Workbook()
+# xlsx = Workbook()
 
 
 # 공고 내용을 상세히 파악하기 위해 element를 이용해 리스트에 접근
@@ -103,11 +103,11 @@ def main():
     time.sleep(5)
 
     # 시트 만들기
-    xlsx.create_sheet("구미노인일자리창출지원센터")
-    sheet = xlsx["구미노인일자리창출지원센터"]
-    sheet.append(['제목', 'URL', '근무지', '모집인원', '모집분야', '우대사항',
-                  '내용', '고용형태', '급여액', '근무시간', '채용담당자',
-                  '연락처'])
+    # xlsx.create_sheet("구미노인일자리창출지원센터")
+    # sheet = xlsx["구미노인일자리창출지원센터"]
+    # sheet.append(['제목', 'URL', '근무지', '모집인원', '모집분야', '우대사항',
+    #               '내용', '고용형태', '급여액', '근무시간', '채용담당자',
+    #               '연락처'])
 
     next_link = pass_the_next_link(driver)
 
@@ -116,18 +116,18 @@ def main():
         notices = approach_the_list(driver)
         detail_link_list = extract_url(notices)
 
-        for page_text in detail_link_list:
-            sheet.append(page_text)
+        # for page_text in detail_link_list:
+        #     sheet.append(page_text)
 
         fix_url = "http://www.gumisilver.or.kr/page.do?mid=118&page="
         driver.get(fix_url + str(index+2))
         index = index + 1
         time.sleep(3)
 
-    del xlsx['Sheet']  # 기본 시트 삭제
-    filename = "C:/Python/" + "구미노인일자리창출지원센터" + "_NewList.xlsx"
-    xlsx.save(filename)  # 통합문서 저장
-    xlsx.close()  # 통합문서 종료
+    # del xlsx['Sheet']  # 기본 시트 삭제
+    # filename = "C:/Python/" + "구미노인일자리창출지원센터" + "_NewList.xlsx"
+    # xlsx.save(filename)  # 통합문서 저장
+    # xlsx.close()  # 통합문서 종료
 
     driver.close()
     driver.quit()
