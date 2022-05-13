@@ -167,11 +167,11 @@ def main(driver):
     time.sleep(3)
 
     # 시트 만들기
-    xlsx.create_sheet("창원노인일자리창출지원센터")
-    sheet = xlsx["창원노인일자리창출지원센터"]
-    sheet.append(['제목', 'URL', '근무지', '모집인원', '모집분야', '우대사항',
-                  '내용', '고용형태', '급여액', '근무시간', '채용담당자',
-                  '연락처'])
+    # xlsx.create_sheet("창원노인일자리창출지원센터")
+    # sheet = xlsx["창원노인일자리창출지원센터"]
+    # sheet.append(['제목', 'URL', '근무지', '모집인원', '모집분야', '우대사항',
+    #               '내용', '고용형태', '급여액', '근무시간', '채용담당자',
+    #               '연락처'])
 
     # dict type의 공고를 담기 위한 리스트 선언
     announcement_list_Gyeongnam_Changwon = []

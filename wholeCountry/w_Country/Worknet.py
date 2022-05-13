@@ -160,6 +160,7 @@ def detail_collect_Announcement(url, data_list, announcement_list_Worknet):
 
         return announcement_list_Worknet
 
+
 def main():
     # 고정 URL
     url = 'http://openapi.work.go.kr/opi/opi/opia/wantedApi.do?'

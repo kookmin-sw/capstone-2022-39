@@ -48,7 +48,6 @@ def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, 
     for detail_link_connect in detail_link_list:
         # 추출된 URL(상세 페이지) 이동
         driver.get(str(detail_link_connect[1]))
-
         time.sleep(3)
 
         # 근무지 추출
@@ -162,7 +161,7 @@ def main(driver):
 
         driver.get(detail_link[index])
         index = index + 1
-        time.sleep(4)
+        time.sleep(3)
 
     # del xlsx['Sheet']  # 기본 시트 삭제
     # filename = "C:/Python/" + "전북노인일자리센터" + "_NewList.xlsx"

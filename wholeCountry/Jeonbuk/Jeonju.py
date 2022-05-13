@@ -14,7 +14,7 @@ from wholeCountry.areas_of_recruitment import areas_of_recruitment
 
 # 공고 내용을 상세히 파악하기 위해 element를 이용해 리스트에 접근
 def approach_the_list(driver):
-    time.sleep(5)
+    time.sleep(4)
     notices = driver.find_element(By.XPATH, '//*[@id="contentBox"]/form[1]/table[2]/tbody')\
         .find_elements(By.TAG_NAME, 'tr')
 
@@ -49,7 +49,7 @@ def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, 
         # 추출된 URL(상세 페이지) 이동
         driver.get(str(detail_link_connect[1]))
 
-        time.sleep(3)
+        time.sleep(2)
         section_check = driver.find_element(By.XPATH, '//*[@id="contentBox"]/table['
                                                       '3]/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[1]/td').text
 
@@ -169,7 +169,7 @@ def main(driver):
 
         driver.get(detail_link[index])
         index = index + 1
-        time.sleep(4)
+        time.sleep(3)
 
     # del xlsx['Sheet']  # 기본 시트 삭제
     # filename = "C:/Python/" + "전주시노인취업지원센터" + "_NewList.xlsx"

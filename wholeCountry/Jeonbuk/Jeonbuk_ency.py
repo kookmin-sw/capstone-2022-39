@@ -113,10 +113,10 @@ def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, 
 
             announcement_list_Jeonbuk_Jeonbuk_ency.append(data)
 
-            detail_page_text.append([detail_link_connect[0], detail_link_connect[1], workplace, recruitment_staff +
-                                     "/" + age + "/" + gender, recruitment_field, qualification_license,
-                                     job_specifications, employment, wages, business_hours,
-                                     recruiter, contact_address])
+            # detail_page_text.append([detail_link_connect[0], detail_link_connect[1], workplace, recruitment_staff +
+            #                          "/" + age + "/" + gender, recruitment_field, qualification_license,
+            #                          job_specifications, employment, wages, business_hours,
+            #                          recruiter, contact_address])
 
     return detail_page_text, announcement_list_Jeonbuk_Jeonbuk_ency
 
