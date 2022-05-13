@@ -7,14 +7,10 @@ from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 import time
-from openpyxl import Workbook
 import os
 from wholeCountry.areas_of_recruitment import areas_of_recruitment
-
+from datetime import datetime
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
-
-# 통합문서 열기
-# xlsx = Workbook()
 
 
 # 공고 내용을 상세히 파악하기 위해 element를 이용해 리스트에 접근
@@ -47,12 +43,12 @@ def extract_url(notices):
 
 
 def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Gyeongnam_Masan):
-    detail_page_text = list()
+    now = datetime.now()
     for detail_link_connect in detail_link_list:
         # 추출된 URL(상세 페이지) 이동
         driver.get(str(detail_link_connect[1]))
 
-        time.sleep(3)
+        time.sleep(1)
 
         # 근무지 추출
         workplace = driver.find_element(By.XPATH, '//*[@id="scontainer"]/div/div/div[2]/div/div/table[1]/tbody/tr['
@@ -93,6 +89,9 @@ def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, 
         # 연락처 추출
         contact_address = "055)246-6588"
 
+        # primary key
+        primary_key = "M" + str(now.time())
+
         data = {
             'title': detail_link_connect[0],
             'url': detail_link_connect[1],
@@ -105,17 +104,13 @@ def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, 
             'wages': wages,
             'business_hours': business_hours,
             'recruiter': recruiter,
-            'contact_address': contact_address
+            'contact_address': contact_address,
+            'primary_key': primary_key
         }
 
         announcement_list_Gyeongnam_Masan.append(data)
 
-        # detail_page_text.append(
-        #     [detail_link_connect[0], detail_link_connect[1], workplace, recruitment_staff,
-        #      recruitment_field, qualification_license, job_specifications, employment,
-        #      wages, business_hours, recruiter, contact_address])
-
-    return detail_page_text, announcement_list_Gyeongnam_Masan
+    return announcement_list_Gyeongnam_Masan
 
 
 def pass_the_next_link(driver):
@@ -139,13 +134,6 @@ def main(driver):
     # driver.implicitly_wait(3)
     time.sleep(5)
 
-    # 시트 만들기(확인 절차)
-    # xlsx.create_sheet("마산노인일자리창출지원센터")
-    # sheet = xlsx["마산노인일자리창출지원센터"]
-    # sheet.append(['제목', 'URL', '근무지', '모집인원', '모집분야', '우대사항',
-    #               '내용', '고용형태', '급여액', '근무시간', '채용담당자',
-    #               '연락처'])
-
     # dict type의 공고를 담기 위한 리스트 선언
     announcement_list_Gyeongnam_Masan = []
 
@@ -158,21 +146,10 @@ def main(driver):
     while index < len(next_link):
         notices = approach_the_list(driver)
         detail_link_list = extract_url(notices)
-        detail_page_text, announcement_list_Gyeongnam_Masan = approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Gyeongnam_Masan)
-
-        # for link_list, page_text in zip(detail_link_list, detail_page_text):
-        #     sheet.append(page_text)
+        announcement_list_Gyeongnam_Masan = approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Gyeongnam_Masan)
 
         driver.get(detail_link[index])
         index = index + 1
-        time.sleep(3)
-
-    # del xlsx['Sheet']  # 기본 시트 삭제
-    # filename = "C:/Python/" + "마산노인일자리창출지원센터" + "_NewList.xlsx"
-    # xlsx.save(filename)  # 통합문서 저장
-    # xlsx.close()  # 통합문서 종료
-
-    # driver.close()
-    # driver.quit()
+        time.sleep(1)
 
     return announcement_list_Gyeongnam_Masan

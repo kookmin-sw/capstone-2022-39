@@ -6,13 +6,9 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException, \
     ElementClickInterceptedException
 import time
-from openpyxl import Workbook
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from wholeCountry.areas_of_recruitment import areas_of_recruitment
-
-# 통합문서 열기
-# xlsx = Workbook()
 
 
 # 공고 내용을 상세히 파악하기 위해 element를 이용해 리스트에 접근
@@ -105,12 +101,7 @@ def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, 
 
         announcement_list_Here.append(data)
 
-        detail_page_text.append(
-            [detail_link_connect[0], detail_link_connect[1], workplace, recruitment_staff,
-             recruitment_field, qualification_license, job_specifications, employment,
-             wages, business_hours, recruiter, contact_address])
-
-    return detail_page_text, announcement_list_Here
+    return announcement_list_Here
 
 
 def pass_the_next_link(driver):
@@ -137,13 +128,6 @@ def main(driver):
     # 지속적으로 홈페이지에 오류가 나서 새로고침을 하도록 함.
     driver.refresh()
     time.sleep(3)
-
-    # 시트 만들기
-    # xlsx.create_sheet("노인일자리여기")
-    # sheet = xlsx["노인일자리여기"]
-    # sheet.append(['제목', 'URL', '근무지', '모집인원', '모집분야', '우대사항',
-    #               '내용', '고용형태', '급여액', '근무시간', '채용담당자',
-    #               '연락처'])
 
     # dict type의 공고를 담기 위한 리스트 선언
     announcement_list_Here = []
@@ -180,12 +164,8 @@ def main(driver):
             try:
                 notices = approach_the_list(driver)
                 detail_link_list = extract_url(notices)
-                detail_page_text, announcement_list_Here = approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Here)
+                announcement_list_Here = approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Here)
 
-                # for link_list, page_text in zip(detail_link_list, detail_page_text):
-                #     sheet.append(page_text)
-
-                # print(detail_link)
                 driver.execute_script(detail_link)
             except NoSuchElementException:
                 pass
@@ -194,11 +174,6 @@ def main(driver):
             break
         driver.get(url)
     f.close()
-
-    # del xlsx['Sheet']  # 기본 시트 삭제
-    # filename = "C:/Python/" + "노인일자리여기" + "_NewList.xlsx"
-    # xlsx.save(filename)  # 통합문서 저장
-    # xlsx.close()  # 통합문서 종료
 
     driver.close()
     driver.quit()

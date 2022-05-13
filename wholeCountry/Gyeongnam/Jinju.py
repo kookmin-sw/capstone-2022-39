@@ -3,16 +3,12 @@ from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
 from selenium.webdriver.common.by import By
 import time
-from openpyxl import Workbook
 from wholeCountry.areas_of_recruitment import areas_of_recruitment
-
-# 통합문서 열기
-# xlsx = Workbook()
+from datetime import datetime
 
 
 # 공고 내용을 상세히 파악하기 위해 element를 이용해 리스트에 접근
 def approach_the_list(driver):
-    # time.sleep(2)
     notices = driver.find_element(By.CLASS_NAME, 'job.tbl.margin-t10.cle') \
         .find_element(By.TAG_NAME, 'tbody') \
         .find_elements(By.TAG_NAME, 'tr')
@@ -40,7 +36,7 @@ def extract_url(notices):
 
 
 def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Gyeongnam_Jinju):
-    detail_page_text = list()
+    now = datetime.now()
     for detail_link_connect in detail_link_list:
         # 추출된 URL(상세 페이지) 이동
         driver.get(str(detail_link_connect[1]))
@@ -86,11 +82,14 @@ def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, 
         # 연락처 추출
         contact_address = "전화문의) 055-744-6088, 055-758-5060"
 
+        # primary key
+        primary_key = "J" + str(now.time())
+
         data = {
             'title': detail_link_connect[0],
             'url': detail_link_connect[1],
             'workplace': workplace,
-            'recruitment_staff': recruitment_staff,
+            'recruitment_staff': recruitment_staff + "/" + gender + "/" + age,
             'recruitment_field': recruitment_field,
             'qualification_license': qualification_license,
             'job_specifications': job_specifications,
@@ -98,17 +97,13 @@ def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, 
             'wages': wages,
             'business_hours': business_hours,
             'recruiter': recruiter,
-            'contact_address': contact_address
+            'contact_address': contact_address,
+            'primary_key': primary_key
         }
 
         announcement_list_Gyeongnam_Jinju.append(data)
 
-        # detail_page_text.append([detail_link_connect[0], detail_link_connect[1], workplace,
-        #                          recruitment_staff + "/" + gender + "/" + age, recruitment_field,
-        #                          qualification_license, job_specifications, employment,
-        #                          wages, business_hours, recruiter, contact_address])
-
-    return detail_page_text, announcement_list_Gyeongnam_Jinju
+    return announcement_list_Gyeongnam_Jinju
 
 
 def pass_the_next_link(driver):
@@ -132,13 +127,6 @@ def main(driver):
     # driver.implicitly_wait(3)
     time.sleep(5)
 
-    # 시트 만들기
-    # xlsx.create_sheet("진주노인일자리창출지원센터")
-    # sheet = xlsx["진주노인일자리창출지원센터"]
-    # sheet.append(['제목', 'URL', '근무지', '모집인원', '모집분야', '우대사항',
-    #               '내용', '고용형태', '급여액', '근무시간', '채용담당자',
-    #               '연락처'])
-
     # dict type의 공고를 담기 위한 리스트 선언
     announcement_list_Gyeongnam_Jinju = []
 
@@ -151,21 +139,10 @@ def main(driver):
     while index < len(next_link) - 1:
         notices = approach_the_list(driver)
         detail_link_list = extract_url(notices)
-        detail_page_text, announcement_list_Gyeongnam_Jinju = approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Gyeongnam_Jinju)
-
-        # for page_text in detail_page_text:
-        #     sheet.append(page_text)
+        announcement_list_Gyeongnam_Jinju = approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Gyeongnam_Jinju)
 
         driver.get(detail_link[index])
         index = index + 1
-        time.sleep(3)
-
-    # del xlsx['Sheet']  # 기본 시트 삭제
-    # filename = "C:/Python/" + "진주노인일자리창출지원센터" + "_NewList.xlsx"
-    # xlsx.save(filename)  # 통합문서 저장
-    # xlsx.close()  # 통합문서 종료
-
-    # driver.close()
-    # driver.quit()
+        time.sleep(1)
 
     return announcement_list_Gyeongnam_Jinju

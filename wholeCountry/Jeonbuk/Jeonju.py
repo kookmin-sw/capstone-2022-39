@@ -5,16 +5,13 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import time
-from openpyxl import Workbook
 from wholeCountry.areas_of_recruitment import areas_of_recruitment
-
-# 통합문서 열기
-# xlsx = Workbook()
+from datetime import datetime
 
 
 # 공고 내용을 상세히 파악하기 위해 element를 이용해 리스트에 접근
 def approach_the_list(driver):
-    time.sleep(4)
+    time.sleep(3)
     notices = driver.find_element(By.XPATH, '//*[@id="contentBox"]/form[1]/table[2]/tbody')\
         .find_elements(By.TAG_NAME, 'tr')
 
@@ -25,7 +22,7 @@ def approach_the_list(driver):
 def extract_url(notices, index):
     # 제목 및 상세 페이지를 위한 URL 수집
     title_name_and_detail_link_list = list()
-    time.sleep(3)
+    time.sleep(1)
     check = 0
     for notice in notices:
         # 첫 페이지 인 경우
@@ -44,12 +41,12 @@ def extract_url(notices, index):
 
 
 def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Jeonbuk_Jeonju):
-    detail_page_text = list()
+    now = datetime.now()
     for detail_link_connect in detail_link_list:
         # 추출된 URL(상세 페이지) 이동
         driver.get(str(detail_link_connect[1]))
 
-        time.sleep(2)
+        time.sleep(1)
         section_check = driver.find_element(By.XPATH, '//*[@id="contentBox"]/table['
                                                       '3]/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[1]/td').text
 
@@ -97,6 +94,9 @@ def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, 
             # 연락처 추출
             contact_address = "전주시노인취업지원센터 063)227-0857~9"
 
+            # primary key
+            primary_key = "JJ" + str(now.time())
+
             data = {
                 'title': detail_link_connect[0],
                 'url': detail_link_connect[1],
@@ -109,17 +109,13 @@ def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, 
                 'wages': wages,
                 'business_hours': business_hours,
                 'recruiter': recruiter,
-                'contact_address': contact_address
+                'contact_address': contact_address,
+                'primary_key': primary_key
             }
 
             announcement_list_Jeonbuk_Jeonju.append(data)
 
-            detail_page_text.append([detail_link_connect[0], detail_link_connect[1], workplace, recruitment_staff +
-                                     "/" + age + "/" + gender, recruitment_field, qualification_license,
-                                     job_specifications, employment, wages, business_hours,
-                                     recruiter, contact_address])
-
-    return detail_page_text, announcement_list_Jeonbuk_Jeonju
+    return announcement_list_Jeonbuk_Jeonju
 
 
 def pass_the_next_link(driver):
@@ -141,14 +137,7 @@ def main(driver):
 
     # 암묵적으로 웹 자원 로드를 위해 3초까지 기다려 준다.
     # driver.implicitly_wait(3)
-    time.sleep(5)
-
-    # 시트 만들기
-    # xlsx.create_sheet("전주시노인취업지원센터")
-    # sheet = xlsx["전주시노인취업지원센터"]
-    # sheet.append(['제목', 'URL', '근무지', '모집인원', '모집분야', '우대사항',
-    #               '내용', '고용형태', '급여액', '근무시간', '채용담당자',
-    #               '연락처'])
+    time.sleep(3)
 
     # dict type의 공고를 담기 위한 리스트 선언
     announcement_list_Jeonbuk_Jeonju = []
@@ -159,25 +148,15 @@ def main(driver):
         detail_link.append(next_link[i].get_attribute('href'))
 
     index = 0
-    while index < len(next_link)-2:
+    while index < len(next_link)-6:
         notices = approach_the_list(driver)
         detail_link_list = extract_url(notices, index)
-        detail_page_text, announcement_list_Jeonbuk_Jeonju = approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Jeonbuk_Jeonju)
 
-        # for link_list, page_text in zip(detail_link_list, detail_page_text):
-        #     sheet.append(page_text)
+        announcement_list_Jeonbuk_Jeonju = approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Jeonbuk_Jeonju)
 
         driver.get(detail_link[index])
         index = index + 1
-        time.sleep(3)
-
-    # del xlsx['Sheet']  # 기본 시트 삭제
-    # filename = "C:/Python/" + "전주시노인취업지원센터" + "_NewList.xlsx"
-    # xlsx.save(filename)  # 통합 문서 저장
-    # xlsx.close()  # 통합 문서 종료
-
-    # driver.close()
-    # driver.quit()
+        time.sleep(1)
 
     return announcement_list_Jeonbuk_Jeonju
 
