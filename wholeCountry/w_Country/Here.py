@@ -4,7 +4,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException, \
-    ElementClickInterceptedException
+    ElementClickInterceptedException, TimeoutException
 import time
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -13,7 +13,7 @@ from wholeCountry.areas_of_recruitment import areas_of_recruitment
 
 # 공고 내용을 상세히 파악하기 위해 element를 이용해 리스트에 접근
 def approach_the_list(driver):
-    time.sleep(3)
+    time.sleep(1)
     notices_list = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, 'rsList02')))
     notices = WebDriverWait(notices_list, 10).until(EC.presence_of_all_elements_located((By.TAG_NAME, 'li')))
     return notices
@@ -23,32 +23,36 @@ def approach_the_list(driver):
 def extract_url(notices):
     title_name_and_detail_link_list = list()  # 제목 및 상세 페이지를 위한 URL 수집
 
-    time.sleep(5)
+    time.sleep(3)
     for notice in notices:
+        time.sleep(2)
         try:
             ignored_exceptions = (NoSuchElementException, StaleElementReferenceException)
-            section = WebDriverWait(notice, 10, ignored_exceptions=ignored_exceptions) \
-                .until(EC.presence_of_element_located((By.CLASS_NAME, 'badge-info')))
+            try:
+                section = WebDriverWait(notice, 10, ignored_exceptions=ignored_exceptions) \
+                    .until(EC.presence_of_element_located((By.CLASS_NAME, 'badge-info')))
+            except TimeoutException:
+                time.sleep(1)
+                section = WebDriverWait(notice, 10, ignored_exceptions=ignored_exceptions) \
+                    .until(EC.presence_of_element_located((By.CLASS_NAME, 'badge-info')))
+
             if section.text == "접수중":
                 detail_title = notice.find_element(By.CLASS_NAME, 'info-tit').text
-                # print("[" + detail_title + "]")
                 detail_link = notice.find_element(By.CLASS_NAME, 'info').find_element(By.TAG_NAME, 'a').get_attribute(
                     'href')
-                # print("[" + detail_link + "]")
 
                 title_name_and_detail_link_list.append([detail_title, detail_link])
         except NoSuchElementException:
             pass
-    # print("---")
+
     return title_name_and_detail_link_list
 
 
 def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Here):
-    detail_page_text = list()
     for detail_link_connect in detail_link_list:
         # 추출된 URL(상세 페이지) 이동
         driver.execute_script(detail_link_connect[1])
-        time.sleep(5)
+        time.sleep(1)
 
         # 근무지 추출
         workplace = driver.find_element(By.XPATH, '//*[@id="dDtlWorkArea"]').text
@@ -123,7 +127,7 @@ def main(driver):
 
     # 암묵적으로 웹 자원 로드를 위해 5초까지 기다려 준다.
     # driver.implicitly_wait(5)
-    time.sleep(5)
+    time.sleep(3)
 
     # 지속적으로 홈페이지에 오류가 나서 새로고침을 하도록 함.
     driver.refresh()
@@ -143,15 +147,16 @@ def main(driver):
     while True:
         keyword = f.readline()
 
-        # 검색 창에 keyword 입력
         driver.refresh()
-        time.sleep(3)
+        time.sleep(1)
+
+        # 검색 창에 keyword 입력
         driver.find_element(By.XPATH, xpath_text).send_keys(keyword)
-        time.sleep(5)
+        time.sleep(1)
         # 검색 버튼 클릭하기
         try:
             driver.find_element(By.XPATH, xpath_button).click()
-            time.sleep(3)
+            time.sleep(1)
         except ElementClickInterceptedException:
             pass
 
@@ -169,7 +174,7 @@ def main(driver):
                 driver.execute_script(detail_link)
             except NoSuchElementException:
                 pass
-        time.sleep(5)
+        # time.sleep(1)
         if not keyword:
             break
         driver.get(url)

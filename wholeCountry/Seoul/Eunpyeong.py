@@ -40,7 +40,8 @@ def extract_url(notices):
     return title_name_and_detail_link_list
 
 
-def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Seoul_Eunpyeong):
+def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Seoul_Eunpyeong, count):
+    index = count * 10
     now = datetime.now()
     for detail_link_connect in detail_link_list:
         # 추출된 URL(상세 페이지) 이동
@@ -104,7 +105,9 @@ def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, 
                 contact_address = "070-7728-2807"
 
                 # primary key
-                primary_key = "E" + str(now.time())
+                primary_key = "E" + str(now.time()) + "#" + str(index)
+
+                index = index + 1
 
                 data = {
                     'title': detail_link_connect[0],
@@ -162,15 +165,17 @@ def main(driver):
     announcement_list_Seoul_Eunpyeong = []
 
     index = 0
+    count = 0
     while index < 4:
         notices = approach_the_list(driver)
         detail_link_list = extract_url(notices)
-        announcement_list_Seoul_Eunpyeong = approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Seoul_Eunpyeong)
+        announcement_list_Seoul_Eunpyeong = approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Seoul_Eunpyeong, count)
 
         next_link = pass_the_next_link(driver, url, index)
 
         url = next_link
         driver.get(next_link)
+        count = count + 1
         index = index + 1
 
     driver.close()

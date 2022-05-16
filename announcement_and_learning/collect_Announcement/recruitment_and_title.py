@@ -8,7 +8,6 @@ import xmltodict
 import time
 import re
 import pandas as pd
-from socket import timeout
 from openpyxl import Workbook
 
 # 통합문서 열기

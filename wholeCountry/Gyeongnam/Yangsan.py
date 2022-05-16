@@ -31,7 +31,8 @@ def extract_url(steady_number, index):
     return title_name_and_detail_link_list
 
 
-def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Gyeongnam_Yangsan):
+def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Gyeongnam_Yangsan, count):
+    index = count * 10
     now = datetime.now()
     time.sleep(1)
     for detail_link_connect in detail_link_list:
@@ -92,7 +93,9 @@ def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, 
             contact_address = "전화문의 055)392-5651~3"
 
             # primary key
-            primary_key = "B" + str(now.time())
+            primary_key = "B" + str(now.time()) + "#" + str(index)
+
+            index = index + 1
 
             data = {
                 'title': detail_title,
@@ -148,11 +151,13 @@ def main(driver):
     # 페이지마다 고정적인 번호 추출
     steady_number = driver.find_element(By.XPATH, '//*[@id="container"]/div[2]/div[2]/table/tbody/tr[1]/td[1]').text
     index = 0
+    count = 0
     for link in next_link:
         detail_link_list = extract_url(int(steady_number), index)
-        announcement_list_Gyeongnam_Yangsan = approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Gyeongnam_Yangsan)
+        announcement_list_Gyeongnam_Yangsan = approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Gyeongnam_Yangsan, count)
 
         driver.get(link)
+        count = count + 1
         index = index + 1
         time.sleep(3)
 

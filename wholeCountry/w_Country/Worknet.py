@@ -7,8 +7,9 @@ from pyexpat import ExpatError
 import requests
 import json
 import xmltodict
-import time
 import pandas as pd
+import time
+from datetime import datetime
 from wholeCountry.areas_of_recruitment import areas_of_recruitment
 
 
@@ -56,6 +57,8 @@ def collect_Announcement(url):
 
 
 def detail_collect_Announcement(url, data_list, announcement_list_Worknet):
+    now = datetime.now()
+    index = 0
     for data in data_list:
         params = {
             'authKey': 'WNL2I9NGDJD367EORE44Y2VR1HJ',
@@ -98,8 +101,8 @@ def detail_collect_Announcement(url, data_list, announcement_list_Worknet):
             recruitment_staff = '{0}'.format(dataframe['wantedInfo.collectPsncnt'].values[0])
 
             # 모집 분야 추출
-            regex = "\(.*\)|\s-\s.*"
-            text = '{0}'.format(title)
+            # regex = "\(.*\)|\s-\s.*"
+            # text = '{0}'.format(title)
             recruitment_field = areas_of_recruitment(title)
 
             # 우대 사항 추출
@@ -120,6 +123,11 @@ def detail_collect_Announcement(url, data_list, announcement_list_Worknet):
             # 채용 담당자 추출
             recruiter = '{0}'.format(dataframe['wantedInfo.rcptMthd'].values[0])
 
+            # primary key
+            primary_key = "B" + str(now.time()) + "#" + str(index)
+
+            index = index + 1
+
             # 연락처 추출
             try:
                 contact_address = '{0}'.format(dataframe['empchargeInfo.contactTelno'].values[0])
@@ -138,7 +146,8 @@ def detail_collect_Announcement(url, data_list, announcement_list_Worknet):
                 'wages': wages,
                 'business_hours': business_hours,
                 'recruiter': recruiter,
-                'contact_address': contact_address
+                'contact_address': contact_address,
+                'primary_key': primary_key
             }
 
             announcement_list_Worknet.append(data)

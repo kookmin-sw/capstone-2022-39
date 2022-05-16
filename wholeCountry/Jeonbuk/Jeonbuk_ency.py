@@ -34,7 +34,8 @@ def extract_url(notices):
     return title_name_and_detail_link_list
 
 
-def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Jeonbuk_Jeonbuk_ency):
+def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Jeonbuk_Jeonbuk_ency, count):
+    index = count * 10
     now = datetime.now()
     for detail_link_connect in detail_link_list:
         # 추출된 URL(상세 페이지) 이동
@@ -93,7 +94,9 @@ def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, 
             contact_address = '063-273-2086'
 
             # primary key
-            primary_key = "JE" + str(now.time())
+            primary_key = "JE" + str(now.time()) + "#" + str(index)
+
+            index = index + 1
 
             data = {
                 'title': detail_link_connect[0],
@@ -146,12 +149,14 @@ def main(driver):
         detail_link.append(next_link[i].get_attribute('href'))
 
     index = 0
+    count = 0
     while index < len(next_link) - 6:
         notices = approach_the_list(driver)
         detail_link_list = extract_url(notices)
-        announcement_list_Jeonbuk_Jeonbuk_ency = approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Jeonbuk_Jeonbuk_ency)
+        announcement_list_Jeonbuk_Jeonbuk_ency = approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Jeonbuk_Jeonbuk_ency, count)
 
         driver.get(detail_link[index])
+        count = count + 1
         index = index + 1
         time.sleep(1)
 

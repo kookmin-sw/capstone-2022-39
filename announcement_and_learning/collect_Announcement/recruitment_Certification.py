@@ -16,16 +16,15 @@ xlsx = Workbook()
 
 def collect_Announcement(url, sheet):
     data_list = list()
-    for i in range(1, 400):
+    for i in range(1, 999):
         params = {
-            'authKey': '',
+            'authKey': 'WNL2I9NGDJD367EORE44Y2VR1HJ',
             'callTp': 'L',
             'returnType': 'XML',
             'startPage': i,
-            'display': '10',
-            'untilEmpWantedYn': 'Y',
-            'pfPreferential': 'S'
-
+            'display': '100',
+            # 'untilEmpWantedYn': 'Y',
+            # 'pfPreferential': 'S'
         }
 
         try:
@@ -52,14 +51,12 @@ def collect_Announcement(url, sheet):
                 sheet.append([data])
 
         except KeyError:
-            print("error: " + data)
+            # print("error: " + data)
             break
         except ConnectionError:
             pass
         except TimeoutError:
             pass
-
-    return data_list
 
 
 def main():
@@ -71,7 +68,7 @@ def main():
     sheet = xlsx["워크넷모집분야"]
     sheet.append(['모집분야'])
 
-    data_list = collect_Announcement(url, sheet)
+    collect_Announcement(url, sheet)
 
     del xlsx['Sheet']  # 기본 시트 삭제
     filename = "C:/Python/" + "워크넷(공고)" + "_NewList.xlsx"

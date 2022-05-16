@@ -36,7 +36,8 @@ def extract_url(notices):
     return detail_link_list
 
 
-def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Busan_Busan):
+def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Busan_Busan, count):
+    index = count * 10
     now = datetime.now()
     for detail_link_connect in detail_link_list:
         driver.get(detail_link_connect[1])
@@ -80,7 +81,9 @@ def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, 
         contact_address = driver.find_element(By.XPATH, '//*[@id="job_container"]/div[7]/table/tbody/tr[2]/td').text
 
         # primary key
-        primary_key = "B" + str(now.time())
+        primary_key = "B" + str(now.time()) + "#" + str(index)
+
+        index = index + 1
 
         data = {
             'title': detail_link_connect[0],
@@ -136,12 +139,14 @@ def main(driver):
             pass
 
     index = 0
+    count = 0
     while index < len(detail_link):
         notices = approach_the_list(driver)
         detail_link_list = extract_url(notices)
-        announcement_list_Busan_Busan = approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Busan_Busan)
+        announcement_list_Busan_Busan = approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Busan_Busan, count)
         driver.get(detail_link[index])
 
+        count = count + 1
         index = index + 1
 
     return announcement_list_Busan_Busan

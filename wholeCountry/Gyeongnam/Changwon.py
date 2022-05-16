@@ -37,8 +37,9 @@ def extract_url(steady_number, index):
     return title_name_and_detail_link_list
 
 
-def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Gyeongnam_Changwon):
+def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Gyeongnam_Changwon, count):
     time.sleep(1)
+    index = count * 10
     now = datetime.now()
     for detail_link_connect in detail_link_list:
         # 추출된 URL(상세 페이지) 이동
@@ -114,7 +115,9 @@ def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, 
             contact_address = "전화문의 055)286-6588"
 
             # primary key
-            primary_key = "C" + str(now.time())
+            primary_key = "C" + str(now.time()) + "#" + str(index)
+
+            index = index + 1
 
             data = {
                 'title': detail_title,
@@ -169,11 +172,13 @@ def main(driver):
     steady_number = driver.find_element(By.XPATH, '/html/body/div/article/div[2]/div[2]/div[2]/section/div/div/div['
                                                   '2]/div/table/tbody/tr[1]/td[1]/span').text
     index = 2
+    count = 0
     while index < len(next_link) - 2:
         detail_link_list = extract_url(int(steady_number), index)
-        announcement_list_Gyeongnam_Changwon = approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Gyeongnam_Changwon)
+        announcement_list_Gyeongnam_Changwon = approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Gyeongnam_Changwon, count)
 
         driver.get(detail_link[index])
+        count = count + 1
         index = index + 1
         time.sleep(2)
 
