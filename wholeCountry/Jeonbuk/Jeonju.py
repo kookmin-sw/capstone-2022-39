@@ -6,7 +6,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import time
 from wholeCountry.areas_of_recruitment import areas_of_recruitment
-from datetime import datetime
+import re
 
 
 # 공고 내용을 상세히 파악하기 위해 element를 이용해 리스트에 접근
@@ -35,14 +35,14 @@ def extract_url(notices, index):
             detail_link = detail[1].find_element(By.TAG_NAME, 'a')\
                 .get_attribute('href')
 
-            title_name_and_detail_link_list.append([detail_title, detail_link])
+            registration_date = detail[5].text
+
+            title_name_and_detail_link_list.append([detail_title, detail_link, registration_date[2:10]])
 
     return title_name_and_detail_link_list
 
 
-def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Jeonbuk_Jeonju, count):
-    index = count * 10
-    now = datetime.now()
+def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Jeonbuk_Jeonju):
     for detail_link_connect in detail_link_list:
         # 추출된 URL(상세 페이지) 이동
         driver.get(str(detail_link_connect[1]))
@@ -90,15 +90,19 @@ def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, 
                                                            '7]/td').text
 
             # 채용 담당자 추출
-            recruiter = "김미건 취업팀장 227-0857~9"
+            recruiter = "전주시노인취업지원센터"
 
             # 연락처 추출
-            contact_address = "전주시노인취업지원센터 063)227-0857~9"
+            contact_address = "김미건 취업팀장 063)227-0857~9"
+
+            # 등록일
+            registration_date = detail_link_connect[2]
 
             # primary key
-            primary_key = "JJ" + str(now.time()) + "#" + str(index)
-
-            index = index + 1
+            modify_title = re.sub('[^A-Za-z0-9가-힣]', '', detail_link_connect[0])
+            modify_recruiter = re.sub('[^A-Za-z0-9가-힣]', '', recruiter)
+            modify_workplace = re.sub('[^A-Za-z0-9가-힣]', '', workplace)
+            primary_key = "JJ" + str(modify_title) + "#" + str(modify_recruiter) + "#" + str(modify_workplace)
 
             data = {
                 'title': detail_link_connect[0],
@@ -113,6 +117,7 @@ def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, 
                 'business_hours': business_hours,
                 'recruiter': recruiter,
                 'contact_address': contact_address,
+                'registration_date': registration_date,
                 'primary_key': primary_key
             }
 
@@ -151,15 +156,13 @@ def main(driver):
         detail_link.append(next_link[i].get_attribute('href'))
 
     index = 0
-    count = 0
     while index < len(next_link)-6:
         notices = approach_the_list(driver)
         detail_link_list = extract_url(notices, index)
 
-        announcement_list_Jeonbuk_Jeonju = approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Jeonbuk_Jeonju, count)
+        announcement_list_Jeonbuk_Jeonju = approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Jeonbuk_Jeonju)
 
         driver.get(detail_link[index])
-        count = count + 1
         index = index + 1
         time.sleep(1)
 

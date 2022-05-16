@@ -5,6 +5,7 @@ from selenium.webdriver.common.by import By
 import time
 from wholeCountry.areas_of_recruitment import areas_of_recruitment
 from datetime import datetime
+import re
 
 
 # 공고 내용을 상세히 파악하기 위해 element를 이용해 리스트에 접근
@@ -17,33 +18,39 @@ def approach_the_list(driver):
 
 
 # 리스트에서 상세 페이지로 갈 수 있는 URL 추출
-def extract_url(steady_number, index):
+def extract_url(notices):
     title_name_and_detail_link_list = list()  # 제목 및 상세 페이지를 위한 URL 수집
 
     time.sleep(3)
-    index_url = (index - 2) * 15
-    for i in range(0, 15):
+    for notice in notices:
         try:
-            steady_url = "https://changwon6588.or.kr/incruit/guinSituation_view.php?idx="
+            detail_href_link = notice.get_attribute('onclick')
 
-            detail_link = steady_url + str(steady_number - index_url + 2810)
+            detail_count = detail_href_link[44:48]
 
-            title_name_and_detail_link_list.append([detail_link])
+            section = notice.find_elements(By.TAG_NAME, 'td')[1].text
+            if section == "모집중":
+                detail_title = notice.find_elements(By.TAG_NAME, 'td')[2].text
+
+                steady_url = "https://changwon6588.or.kr/incruit/guinSituation_view.php?idx="
+
+                detail_link = steady_url + str(detail_count)
+
+                registration_date = notice.find_elements(By.TAG_NAME, 'td')[6].text
+                registration_date = registration_date.replace('-', '/')
+
+                title_name_and_detail_link_list.append([detail_title, detail_link, registration_date[2:10]])
         except NoSuchElementException:
             pass
-
-        index_url = index_url + 1
 
     return title_name_and_detail_link_list
 
 
-def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Gyeongnam_Changwon, count):
+def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Gyeongnam_Changwon):
     time.sleep(1)
-    index = count * 10
-    now = datetime.now()
     for detail_link_connect in detail_link_list:
         # 추출된 URL(상세 페이지) 이동
-        driver.get(str(detail_link_connect[0]))
+        driver.get(str(detail_link_connect[1]))
         section = driver.find_element(By.XPATH,
                                       '/html/body/div/article/div[2]/div[2]/div[2]/section/div/div/div['
                                       '1]/div/div/div[1]/span').text
@@ -109,15 +116,19 @@ def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, 
                                         '2]/table/tbody/tr[9]/td').text
 
             # 채용 담당자 추출
-            recruiter = "창원노인일자리창출지원센터 "
+            recruiter = "창원노인일자리창출지원센터"
 
             # 연락처 추출
             contact_address = "전화문의 055)286-6588"
 
-            # primary key
-            primary_key = "C" + str(now.time()) + "#" + str(index)
+            # 등록일
+            registration_date = detail_link_connect[2]
 
-            index = index + 1
+            # primary key
+            modify_title = re.sub('[^A-Za-z0-9가-힣]', '', detail_link_connect[0])
+            modify_recruiter = re.sub('[^A-Za-z0-9가-힣]', '', recruiter)
+            modify_workplace = re.sub('[^A-Za-z0-9가-힣]', '', workplace)
+            primary_key = "C" + str(modify_title) + "#" + str(modify_recruiter) + "#" + str(modify_workplace)
 
             data = {
                 'title': detail_title,
@@ -132,6 +143,7 @@ def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, 
                 'business_hours': business_hours,
                 'recruiter': recruiter,
                 'contact_address': contact_address,
+                'registration_date': registration_date,
                 'primary_key': primary_key
             }
 
@@ -169,16 +181,13 @@ def main(driver):
     for i in range(len(next_link)):
         detail_link.append(next_link[i].get_attribute('href'))
 
-    steady_number = driver.find_element(By.XPATH, '/html/body/div/article/div[2]/div[2]/div[2]/section/div/div/div['
-                                                  '2]/div/table/tbody/tr[1]/td[1]/span').text
     index = 2
-    count = 0
     while index < len(next_link) - 2:
-        detail_link_list = extract_url(int(steady_number), index)
-        announcement_list_Gyeongnam_Changwon = approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Gyeongnam_Changwon, count)
+        notices = approach_the_list(driver)
+        detail_link_list = extract_url(notices)
+        announcement_list_Gyeongnam_Changwon = approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Gyeongnam_Changwon)
 
         driver.get(detail_link[index])
-        count = count + 1
         index = index + 1
         time.sleep(2)
 

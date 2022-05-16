@@ -6,7 +6,8 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import time
 from wholeCountry.areas_of_recruitment import areas_of_recruitment
-from datetime import datetime
+import re
+import datetime
 
 
 # 공고 내용을 상세히 파악하기 위해 element를 이용해 리스트에 접근
@@ -31,17 +32,20 @@ def extract_url(notices, index):
             pass
         else:
             detail = notice.find_element(By.CLASS_NAME, 'bo_tit')
+
             detail_title = detail.text
             detail_link = detail.find_element(By.TAG_NAME, 'a')\
                 .get_attribute('href')
-            title_name_and_detail_link_list.append([detail_title, detail_link])
+
+            registration_date = notice.find_elements(By.CLASS_NAME, 'td_datetime')[1].text
+
+            title_name_and_detail_link_list.append([detail_title, detail_link, registration_date])
 
     return title_name_and_detail_link_list
 
 
-def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Jeonbuk_Jeonbuk, count):
-    index = count * 10
-    now = datetime.now()
+def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Jeonbuk_Jeonbuk):
+    today = datetime.date.today()
     for detail_link_connect in detail_link_list:
         # 추출된 URL(상세 페이지) 이동
         driver.get(str(detail_link_connect[1]))
@@ -65,7 +69,9 @@ def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, 
         recruitment_field = areas_of_recruitment(detail_link_connect[0])
 
         # 우대 사항 추출
-        qualification_license =  driver.find_element(By.XPATH, '//*[@id="bo_v_atc"]/div/table/tbody/tr[13]/td').text
+        qualification_license = driver.find_element(By.XPATH, '//*[@id="bo_v_atc"]/div/table/tbody/tr[13]/td').text
+        if len(qualification_license) <= 2:
+            qualification_license = '-'
 
         # 내용 추출
         job_specifications = driver.find_element(By.XPATH, '//*[@id="bo_v_con"]').text
@@ -79,16 +85,36 @@ def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, 
         # 근무 시간 추출
         business_hours = driver.find_element(By.XPATH, '//*[@id="bo_v_atc"]/div/table/tbody/tr[9]/td').text
 
+        # 지원 센터 추출
+        center = "전북노인일자리센터"
+
         # 채용 담당자 추출
         recruiter = driver.find_element(By.XPATH, '//*[@id="bo_v_atc"]/div/table/tbody/tr[16]/td').text
 
         # 연락처 추출
         contact_address = driver.find_element(By.XPATH, '//*[@id="bo_v_atc"]/div/table/tbody/tr[17]/td').text
 
-        # primary key
-        primary_key = "JB" + str(now.time()) + "#" + str(index)
+        # 등록일
+        registration_date = "22/" + detail_link_connect[2]
 
-        index = index + 1
+        if registration_date[5:6] == ":":
+            month = today.month
+            day = today.day
+            if int(month) < 10 and int(day) < 10:
+                registration_date = "22/0" + str(month) + "/0" + str(day)
+            elif int(month) > 10 and int(day) < 10:
+                registration_date = "22/" + str(month) + "/0" + str(day)
+            elif int(month) < 10 and int(day) > 10:
+                registration_date = "22/0" + str(month) + "/" + str(day)
+
+        registration_date = str(registration_date)
+        registration_date.replace('-', '/')
+
+        # primary key
+        modify_title = re.sub('[^A-Za-z0-9가-힣]', '', detail_link_connect[0])
+        modify_recruiter = re.sub('[^A-Za-z0-9가-힣]', '', recruiter)
+        modify_workplace = re.sub('[^A-Za-z0-9가-힣]', '', workplace)
+        primary_key = "JB" + str(modify_title) + "#" + str(modify_recruiter) + "#" + str(modify_workplace)
 
         data = {
             'title': detail_link_connect[0],
@@ -101,8 +127,9 @@ def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, 
             'employment': employment,
             'wages': wages,
             'business_hours': business_hours,
-            'recruiter': recruiter,
-            'contact_address': contact_address,
+            'recruiter': center,
+            'contact_address': recruiter + " " + contact_address[0:12],
+            'registration_date': registration_date,
             'primary_key': primary_key
         }
 
@@ -141,14 +168,12 @@ def main(driver):
         detail_link.append(next_link[i].get_attribute('href'))
 
     index = 0
-    count = 0
     while index < len(next_link) - 2:
         notices = approach_the_list(driver)
         detail_link_list = extract_url(notices, index)
-        announcement_list_Jeonbuk_Jeonbuk = approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Jeonbuk_Jeonbuk, count)
+        announcement_list_Jeonbuk_Jeonbuk = approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Jeonbuk_Jeonbuk)
 
         driver.get(detail_link[index])
-        count = count + 1
         index = index + 1
         time.sleep(1)
 

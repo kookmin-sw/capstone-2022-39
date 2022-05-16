@@ -1,21 +1,20 @@
 """
 - 워크넷
 """
-
 from pyexpat import ExpatError
-
 import requests
 import json
 import xmltodict
 import pandas as pd
 import time
+import re
 from datetime import datetime
 from wholeCountry.areas_of_recruitment import areas_of_recruitment
 
 
 def collect_Announcement(url):
     data_list = list()
-    for i in range(1, 500):
+    for i in range(1, 300):
         params = {
             'authKey': 'WNL2I9NGDJD367EORE44Y2VR1HJ',
             'callTp': 'L',
@@ -24,10 +23,10 @@ def collect_Announcement(url):
             'display': '100',
             'pfPreferential': 'S'
         }
-
+        time.sleep(2)
         try:
             response = requests.get(url, params=params, headers={'User-Agent': 'Mozilla/5.0'})
-            time.sleep(1)
+
             # Ordered dictionary type
             result = xmltodict.parse(response.text)
 
@@ -57,7 +56,6 @@ def collect_Announcement(url):
 
 
 def detail_collect_Announcement(url, data_list, announcement_list_Worknet):
-    now = datetime.now()
     index = 0
     for data in data_list:
         params = {
@@ -98,7 +96,7 @@ def detail_collect_Announcement(url, data_list, announcement_list_Worknet):
             workplace = '{0}'.format(dataframe['wantedInfo.workRegion'].values[0])
 
             # 모집 인원 추출
-            recruitment_staff = '{0}'.format(dataframe['wantedInfo.collectPsncnt'].values[0])
+            recruitment_staff = '{0}'.format(dataframe['wantedInfo.collectPsncnt'].values[0]) + "명"
 
             # 모집 분야 추출
             # regex = "\(.*\)|\s-\s.*"
@@ -121,18 +119,28 @@ def detail_collect_Announcement(url, data_list, announcement_list_Worknet):
             business_hours = '{0}'.format(dataframe['wantedInfo.workdayWorkhrCont'].values[0])
 
             # 채용 담당자 추출
-            recruiter = '{0}'.format(dataframe['wantedInfo.rcptMthd'].values[0])
+            recruiter = '워크넷'
+            # recruiter = '{0}'.format(dataframe['wantedInfo.rcptMthd'].values[0])
+
+            # 등록일
+            registration_date = "-"
 
             # primary key
-            primary_key = "B" + str(now.time()) + "#" + str(index)
+            modify_title = re.sub('[^A-Za-z0-9가-힣]', '', title)
+            modify_recruiter = re.sub('[^A-Za-z0-9가-힣]', '', recruiter)
+            modify_workplace = re.sub('[^A-Za-z0-9가-힣]', '', workplace)
+            primary_key = "W" + str(modify_title) + "#" + str(modify_recruiter) + "#" + str(modify_workplace)
 
             index = index + 1
 
             # 연락처 추출
             try:
                 contact_address = '{0}'.format(dataframe['empchargeInfo.contactTelno'].values[0])
+
+                if contact_address == "None":
+                    contact_address = "-"
             except KeyError:
-                contact_address = " "
+                contact_address = "-"
 
             data = {
                 'title': title,
@@ -147,6 +155,7 @@ def detail_collect_Announcement(url, data_list, announcement_list_Worknet):
                 'business_hours': business_hours,
                 'recruiter': recruiter,
                 'contact_address': contact_address,
+                'registration_date': registration_date,
                 'primary_key': primary_key
             }
 

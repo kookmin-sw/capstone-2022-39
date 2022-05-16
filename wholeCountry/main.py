@@ -17,8 +17,13 @@ import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 if __name__ == '__main__':
-    driver = webdriver.Chrome(ChromeDriverManager().install())
     announcement_list = []
+
+    announcement_list_Worknet = w_Country.Worknet.main()
+    # print(announcement_list_Worknet)
+    announcement_list.extend(announcement_list_Worknet)
+
+    driver = webdriver.Chrome(ChromeDriverManager().install())
 
     announcement_list_Gyeongnam_Masan = Gyeongnam.Masan.main(driver)
     # print(announcement_list_Gyeongnam_Masan)
@@ -59,10 +64,6 @@ if __name__ == '__main__':
     # announcement_list_Here = w_Country.Here.main(driver)
     # print(announcement_list_Here)
     # announcement_list.extend(announcement_list_Here)
-
-    announcement_list_Worknet = w_Country.Worknet.main()
-    # print(announcement_list_Worknet)
-    announcement_list.extend(announcement_list_Worknet)
 
     with open('C:/Users/Admin/Documents/GitHub/capstone-2022-39/wholeCountry/announcement_list.json', 'w', encoding='UTF-8-sig') as f:
         f.write(json.dumps(announcement_list, ensure_ascii=False, indent=4))
