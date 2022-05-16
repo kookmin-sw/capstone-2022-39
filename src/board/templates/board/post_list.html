@@ -1,0 +1,57 @@
+{% extends "board/layout.html" %}
+{% load bootstrap4 %}
+
+{% block title %}
+
+{% endblock title %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-7 offset-sm-3">
+                <form action="" method="GET">
+                    <input type="text" name="q" value="{{ q }}" />
+                    <input type="submit" value="검색"/>
+                </form>
+
+                <a href="{% url 'board:create_post' %}" class="btn btn-primary btn-block mt-3 mb-1">
+                    모집공고 등록
+                </a>
+
+                <table class="table table-bordered table-hover mt-3">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>작성자</th>
+                            <th>제목</th>
+                            <th>모집분야</th>
+                            <th>모집인원</th>
+                            <th>근무시간</th>
+                            <th>급여액</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for post in post_list %}
+                            <tr>
+                                <td>{{ post.author }}</td>
+                                <td>
+                                    <a href="{{ post.get_absolute_url }}">
+                                    {{ post.title }}
+                                </td>
+                                <td>{{ post.category }}</td>
+                                <td>{{ post.gather_count }}</td>
+                                <td>{{ post.work_time }}</td>
+                                <td>{{ post.pay }}</td>
+                            </tr>
+                {% endfor %}
+                    </tbody>
+
+                </table>
+
+                {{ page_obj }}
+                {% if is_paginated %}
+                    {% bootstrap_pagination page_obj size="small" justify_content="center" %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}
