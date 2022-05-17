@@ -106,6 +106,7 @@ def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, 
 
                 # 등록일
                 registration_date = detail_link_connect[2]
+                registration_date = registration_date.replace('.', '/')
 
                 # primary key
                 modify_title = re.sub('[^A-Za-z0-9가-힣]', '', detail_link_connect[0])

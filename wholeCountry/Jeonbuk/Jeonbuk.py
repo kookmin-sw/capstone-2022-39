@@ -38,6 +38,7 @@ def extract_url(notices, index):
                 .get_attribute('href')
 
             registration_date = notice.find_elements(By.CLASS_NAME, 'td_datetime')[1].text
+            registration_date = registration_date.replace('-', '/')
 
             title_name_and_detail_link_list.append([detail_title, detail_link, registration_date])
 
@@ -106,9 +107,9 @@ def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, 
                 registration_date = "22/" + str(month) + "/0" + str(day)
             elif int(month) < 10 and int(day) > 10:
                 registration_date = "22/0" + str(month) + "/" + str(day)
+            else:
+                registration_date = "22/" + str(month) + "/" + str(day)
 
-        registration_date = str(registration_date)
-        registration_date.replace('-', '/')
 
         # primary key
         modify_title = re.sub('[^A-Za-z0-9가-힣]', '', detail_link_connect[0])

@@ -8,8 +8,8 @@ import xmltodict
 import pandas as pd
 import time
 import re
-from datetime import datetime
 from wholeCountry.areas_of_recruitment import areas_of_recruitment
+import datetime
 
 
 def collect_Announcement(url):
@@ -56,7 +56,7 @@ def collect_Announcement(url):
 
 
 def detail_collect_Announcement(url, data_list, announcement_list_Worknet):
-    index = 0
+    today = datetime.date.today()
     for data in data_list:
         params = {
             'authKey': 'WNL2I9NGDJD367EORE44Y2VR1HJ',
@@ -123,15 +123,22 @@ def detail_collect_Announcement(url, data_list, announcement_list_Worknet):
             # recruiter = '{0}'.format(dataframe['wantedInfo.rcptMthd'].values[0])
 
             # 등록일
-            registration_date = "-"
+            month = today.month
+            day = today.day
+            if int(month) < 10 and int(day) < 10:
+                registration_date = "22/0" + str(month) + "/0" + str(day)
+            elif int(month) > 10 and int(day) < 10:
+                registration_date = "22/" + str(month) + "/0" + str(day)
+            elif int(month) < 10 and int(day) > 10:
+                registration_date = "22/0" + str(month) + "/" + str(day)
+            else:
+                registration_date = "22/" + str(month) + "/" + str(day)
 
             # primary key
             modify_title = re.sub('[^A-Za-z0-9가-힣]', '', title)
             modify_recruiter = re.sub('[^A-Za-z0-9가-힣]', '', recruiter)
             modify_workplace = re.sub('[^A-Za-z0-9가-힣]', '', workplace)
             primary_key = "W" + str(modify_title) + "#" + str(modify_recruiter) + "#" + str(modify_workplace)
-
-            index = index + 1
 
             # 연락처 추출
             try:
