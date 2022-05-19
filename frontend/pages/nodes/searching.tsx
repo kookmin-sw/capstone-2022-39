@@ -1,0 +1,152 @@
+import styled from "styled-components";
+import { useEffect, useState, } from "react";
+import Link from "next/link";
+import Loading from "../components/Loading";
+import { cityFilter, dataAtom } from "../../atoms";
+import { useRecoilState, useRecoilValue} from "recoil";
+
+
+export default function Searching(){
+
+    const [data, setData] = useRecoilState(dataAtom);
+    const selector = useRecoilValue(cityFilter);
+
+    const getData = async() => {
+        const json = await(await fetch('https://s3.us-west-2.amazonaws.com/secure.notion-static.com/bcedc431-821d-4734-b59e-9875ccd72a89/announcement_list.json?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220518%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220518T140115Z&X-Amz-Expires=86400&X-Amz-Signature=a4d911a0a181ec0f67f52dad01bb001a0f6b8f16c709bcdd36bdf54c0087b382&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22announcement_list.json%22&x-id=GetObject')).json();
+        setData(json);
+      };
+
+    useEffect(()=>{getData()},[]);
+
+    console.log(selector);
+    const [page, setPage] = useState<number>(1);
+    let nbtn = Math.ceil(selector?.length/20);
+    
+    if (nbtn == 1){
+        nbtn = 2;
+    }
+
+    const btnlist = []
+    const start : number = (page == 1) ? 0 : (page * 20);
+    const end : number = (page == nbtn) ? selector?.length : (start + 20); // (0,20) (20,40)
+    // const test = ({data}.data)?.slice(start, end); 
+    const test = selector?.slice(start, end); 
+
+    const btnHandle = (e : React.MouseEvent<HTMLButtonElement>) => {
+        setPage(parseInt(e.target.name));
+    }
+
+    for (let i=1; i<nbtn; i++){
+        btnlist.push(i);
+    }
+    
+    return(
+        <Container>
+            <Contents>
+                {test ? 
+                <div>
+                <Block>
+                    <Box>
+                        {/* {test?.map((data, index) =><Link href={{ */}
+                        <NodeBox>
+                            {/* <Tr>
+                                <Th>공고 제목</Th>
+                                <Th>지역</Th>
+                                <Th>시간</Th>
+                                <Th>임금</Th>
+                            </Tr> */}
+                            {test?.map((data, index) =><Link href={{
+                            pathname: `/nodes/${{data}.data.title}`, 
+                            query:{ 
+                                title: {data}.data.title ,
+                                url: {data}.data.url,
+                                workplace: {data}.data.workplace,
+                                recruitment_staff: {data}.data.recruitment_staff,
+                                recruitment_field: {data}.data.recruitment_field,
+                                qualification_license: {data}.data.qualification_license,
+                                job_specifications: {data}.data.job_specifications,
+                                employment: {data}.data.employment,
+                                wages: {data}.data.wages,
+                                business_hours: {data}.data.business_hours,
+                                recruiter: {data}.data.recruiter,
+                                contact_address: {data}.data.contact_address,
+                            },
+                        // }}><p>{index} <span key={index}>{{data}.data.title}</span></p></Link>)}
+                        }}>
+                            <Tr key={index}>
+                                <Th>{{data}.data.title}</Th>
+                                <Th>{{data}.data.workplace}</Th>
+                                <Th>{{data}.data.business_hours}</Th>
+                                <Th>{{data}.data.wages}</Th>
+                            </Tr>
+                        </Link>)}
+                        </NodeBox>
+                    </Box>
+                </Block>
+                <Block>
+                    {btnlist.map((n, index) =><Btn key={index} onClick={btnHandle} name={n}>{n}</Btn>)}
+                </Block> 
+                </div>
+                :<Loading/>}
+
+            </Contents>
+        </Container>
+    );
+}
+const Container = styled.div`
+    text-align: center;
+    display: grid;
+    place-items: center;
+`;
+
+const Contents = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    min-height: 100vh; 
+    flex-direction: column;
+`;
+const Block = styled.div`
+
+`;
+const Box = styled.span`
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    margin-bottom : 10vh;
+    flex-direction: column;
+`;
+
+const Btn = styled.button`
+    color: ${(props)=> props.theme.colors.BLACK};
+    display: inline;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    background-color: white;
+    &:focus{
+            color: ${(props)=> props.theme.colors.BLUE};
+        }
+    p{
+        cursor: pointer;
+       
+    }
+`;
+
+const NodeBox = styled.table`
+    border-collapse: collapse;
+
+`;
+
+const Th = styled.th`
+    display: inline-block;
+    width: 250px;
+    font-size: 20px;
+    padding: 15px;
+`; 
+
+const Tr = styled.tr`
+    border: solid ${(props)=> props.theme.colors.BLUE};  
+    border-radius: 50px;
+`;
