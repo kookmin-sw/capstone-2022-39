@@ -18,16 +18,15 @@ export default function App({Component, pageProps}: AppProps) {
 
   return (
       <RecoilRoot>
-      <ThemeProvider theme={theme}>
-          <GlobalStyle />
-          <Container>
-            <Wrap>
-                <Link href = "/"><Logo><Image src={logo} width={100} height={45} alt="logo"></Image></Logo></Link>
-            </Wrap>
-          </Container>
-
-          <Component {...pageProps} />
-      </ThemeProvider>
+        <ThemeProvider theme={theme}>
+            <GlobalStyle />
+            <Container>
+              <Wrap>
+                  <Link href = "/"><Logo><Image src={logo} width={100} height={45} alt="logo"></Image></Logo></Link>
+              </Wrap>
+            </Container>
+            <Component {...pageProps} />
+        </ThemeProvider>
       </RecoilRoot>
   );
 }

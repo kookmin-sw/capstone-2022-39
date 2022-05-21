@@ -1,7 +1,14 @@
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
+import {useRouter} from 'next/router'
+
+
 
 export default function Login(){
+    const router = useRouter();
+
+    const regExp = new RegExp(/^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/);
+
     interface LoginI {
         email: string;
         password: string;
@@ -9,6 +16,7 @@ export default function Login(){
 
     const onValid = (data: any) => {
         console.log(data);
+        router.push("/write")
     };
 
     const {
@@ -32,26 +40,24 @@ export default function Login(){
                     {...register("email", {
                         required: "이메일을 입력해주세요",
                         pattern: {
-                            value: /^[A-Za-z0-9._%+-]+@+[A-Za-z0-9._%+-]$/,
-                            message: "이메일 형식으로 작성해주세요.",
+                            value: regExp,
+                            message: "유효한 이메일 형식으로 작성해주세요.",
                         },
                     })}
-                    placeholder="Email"
+                    placeholder="이메일"
                     />
-                    <span>{errors?.email?.message}</span>
-                    <Input
-                    {...register("password", { required: "비밀번호를 입력해주세요.", minLength: 5 })}
-                    placeholder="Password"
+                    <Message>{errors?.email?.message}</Message>
+                    <Password
+                    {...register("password", { required: "비밀번호를 입력해주세요.", minLength: 5})}
+                    placeholder="비밀번호"
                     />
-                    <span>{errors?.password?.message}</span>
+                    <Message>{errors?.password?.message}</Message>
                     <Btn>로그인</Btn>
                 </Form>
             </Contents>
         </Container>
     );
 }
-//recoil로 받음
-
 const Container = styled.div`
     text-align: center;
     display: grid;
@@ -81,6 +87,10 @@ const Input = styled.input`
     background-color: ${(props) => props.theme.colors.GRAY};
 `;
 
+const Password = styled(Input).attrs({ type: 'password' })`
+`;
+
+
 const Btn = styled.button`
     font-size: 20px;
     position: relative;
@@ -89,11 +99,17 @@ const Btn = styled.button`
     border: none;
     letter-spacing: 1px;
     width: 400px;
-    font-weight: 300;
+    font-weight: 500;
     text-align: center;
     border-radius: 10px;
     text-decoration: none;
     padding: 10px;
     cursor: pointer;
     margin-right: 20px;
+`;
+
+const Message = styled.span`
+    padding: 10px;
+    font-size: 15px;
+    color: ${(props) => props.theme.colors.BLUE};
 `;

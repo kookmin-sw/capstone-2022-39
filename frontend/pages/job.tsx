@@ -3,8 +3,6 @@ import { useRecoilState } from "recoil";
 import { jobAtom } from "../atoms";
 import Link from "next/link";
 export default function Job(){
-    const test = ["보험","경호원","환경미화원","청소","파일정리","테스트","테스트입니다"]
-
     const [job, setJob] = useRecoilState(jobAtom);
     const onClick = (e : React.MouseEvent<HTMLButtonElement>) => {
         setJob(e.target.name);
@@ -31,10 +29,7 @@ export default function Job(){
         <Container>
             <Contents>
                 <Question>원하시는 직종이 있으신가요?</Question>
-                {category.map((job, index) => <Link href={"/nodes/searching"}><Choice key = {index} onClick={onClick} name={job}>{job}</Choice></Link>)}
-            {/* //     <br></br>
-            //  <Link href={"/searching"}>확인</Link> */}
-
+                    <Box>{category.map((job, index) => <Link href={"/nodes/searching"}><Choice key = {index} onClick={onClick} name={job}>{job}</Choice></Link>)}</Box>
             </Contents>
         </Container>
     );
@@ -54,6 +49,12 @@ const Contents = styled.div`
     min-height: 100vh; 
     flex-direction: column;
 `;
+
+const Box = styled.div`
+    display: flex;
+    width: 50%;
+    flex-wrap: wrap;
+`;
 const Animation = keyframes`
     from { transform: translateY(40px); opacity: 0;}
     to { transform: translateY(0); opacity: 1;}
@@ -71,7 +72,7 @@ const Question = styled.span`
 const Choice = styled.button`
     animation-name: ${Animation};
     animation-duration: 2s;
-    width: 100%;
+    width: 50%;
     display: block;
     border-radius: 4px;
     background-color: white;

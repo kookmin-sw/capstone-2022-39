@@ -13,7 +13,7 @@ export default function Searching(){
     const selector = useRecoilValue(cityFilter);
 
     const getData = async() => {
-        const json = await(await fetch('https://s3.us-west-2.amazonaws.com/secure.notion-static.com/bcedc431-821d-4734-b59e-9875ccd72a89/announcement_list.json?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220519%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220519T151206Z&X-Amz-Expires=86400&X-Amz-Signature=60ea9b81012dd4cdb2a44ce377bf481e50f7c81e350939e03e6355c12ee9e494&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22announcement_list.json%22&x-id=GetObject')).json();
+        const json = await(await fetch('https://s3.us-west-2.amazonaws.com/secure.notion-static.com/bcedc431-821d-4734-b59e-9875ccd72a89/announcement_list.json?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220521%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220521T082521Z&X-Amz-Expires=86400&X-Amz-Signature=bc922e25dd08e2bff78e4bf48b69ad5905410cac9f3f0ea19d3f132cd009cf03&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22announcement_list.json%22&x-id=GetObject')).json();
         setData(json);
       };
 
@@ -90,6 +90,7 @@ export default function Searching(){
         </Container>
     );
 }
+
 const Container = styled.div`
     text-align: center;
     display: grid;
