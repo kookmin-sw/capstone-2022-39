@@ -62,9 +62,6 @@ def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, 
                                                         '//*[@id="lightgallery"]/table[1]/tbody/tr[2]/td['
                                                         '4]/span/strong/span').text
 
-                # 모집 분야 추출
-                recruitment_field = areas_of_recruitment(detail_link_connect[0])
-
                 # 우대 사항 추출
                 if str(detail_link_connect[0]).__contains__("경비원"):
                     qualification_license = "경비경력자, 소방안전관리자 2급이상"
@@ -107,6 +104,9 @@ def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, 
                 # 등록일
                 registration_date = detail_link_connect[2]
                 registration_date = registration_date.replace('.', '/')
+
+                # 모집 분야
+                recruitment_field = areas_of_recruitment(detail_link_connect[0] + job_specifications)
 
                 # primary key
                 modify_title = re.sub('[^A-Za-z0-9가-힣]', '', detail_link_connect[0])
@@ -182,8 +182,5 @@ def main(driver):
         url = next_link
         driver.get(next_link)
         index = index + 1
-
-    driver.close()
-    driver.quit()
 
     return announcement_list_Seoul_Eunpyeong

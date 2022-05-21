@@ -4,7 +4,6 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 import time
 from wholeCountry.areas_of_recruitment import areas_of_recruitment
-from datetime import datetime
 import re
 
 
@@ -92,9 +91,6 @@ def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, 
                                                     '3]/div[ '
                                                     '2]/table/tbody/tr[8]/td').text
 
-            # 모집 분야 추출
-            recruitment_field = areas_of_recruitment(detail_title)
-
             # 성별 추출
             gender = driver.find_element(By.XPATH, '/html/body/div/article/div[2]/div[2]/div[2]/section/div/div/div['
                                                    '3]/div[ '
@@ -123,6 +119,9 @@ def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, 
 
             # 등록일
             registration_date = detail_link_connect[2]
+
+            # 모집 분야
+            recruitment_field = areas_of_recruitment(detail_title + job_specifications)
 
             # primary key
             modify_title = re.sub('[^A-Za-z0-9가-힣]', '', detail_link_connect[0])

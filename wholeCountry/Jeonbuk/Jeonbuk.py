@@ -21,7 +21,7 @@ def approach_the_list(driver):
 
 
 # 리스트에서 상세 페이지로 갈 수 있는 URL 추출
-def extract_url(notices, index):
+def extract_url(notices):
     # 제목 및 상세 페이지를 위한 URL 수집
     title_name_and_detail_link_list = list()
     time.sleep(1)
@@ -66,9 +66,6 @@ def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, 
         age = driver.find_element(By.XPATH,
                                   '//*[@id="bo_v_atc"]/div/table/tbody/tr[8]/td[2]').text
 
-        # 모집 분야 추출
-        recruitment_field = areas_of_recruitment(detail_link_connect[0])
-
         # 우대 사항 추출
         qualification_license = driver.find_element(By.XPATH, '//*[@id="bo_v_atc"]/div/table/tbody/tr[13]/td').text
         if len(qualification_license) <= 2:
@@ -98,6 +95,9 @@ def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, 
         # 등록일
         registration_date = "22/" + detail_link_connect[2]
 
+        # 모집 분야
+        recruitment_field = areas_of_recruitment(detail_link_connect[0] + job_specifications)
+
         if registration_date[5:6] == ":":
             month = today.month
             day = today.day
@@ -109,7 +109,6 @@ def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, 
                 registration_date = "22/0" + str(month) + "/" + str(day)
             else:
                 registration_date = "22/" + str(month) + "/" + str(day)
-
 
         # primary key
         modify_title = re.sub('[^A-Za-z0-9가-힣]', '', detail_link_connect[0])
@@ -171,7 +170,7 @@ def main(driver):
     index = 0
     while index < len(next_link) - 2:
         notices = approach_the_list(driver)
-        detail_link_list = extract_url(notices, index)
+        detail_link_list = extract_url(notices)
         announcement_list_Jeonbuk_Jeonbuk = approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, announcement_list_Jeonbuk_Jeonbuk)
 
         driver.get(detail_link[index])

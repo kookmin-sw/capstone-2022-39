@@ -61,9 +61,6 @@ def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, 
                                                 '//*[@id="scontainer"]/div/div/div[2]/div/div/table[1]/tbody/tr['
                                                 '1]/td[4]').text
 
-        # 모집 분야 추출
-        recruitment_field = areas_of_recruitment(detail_link_connect[0])
-
         # 우대 사항 추출
         qualification_license = driver.find_element(By.XPATH,
                                                     '//*[@id="scontainer"]/div/div/div[2]/div/div/table[1]/tbody/tr['
@@ -99,6 +96,9 @@ def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, 
         modify_recruiter = re.sub('[^A-Za-z0-9가-힣]', '', recruiter)
         modify_workplace = re.sub('[^A-Za-z0-9가-힣]', '', workplace)
         primary_key = "M" + str(modify_title) + "#" + str(modify_recruiter) + "#" + str(modify_workplace)
+
+        # 모집 분야
+        recruitment_field = areas_of_recruitment(detail_link_connect[0] + job_specifications)
 
         data = {
             'title': detail_link_connect[0],

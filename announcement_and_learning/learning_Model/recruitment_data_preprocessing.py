@@ -15,11 +15,12 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 from tensorflow.keras.utils import to_categorical
 from keras.preprocessing.text import *
 from keras.preprocessing.sequence import pad_sequences
+from sklearn.preprocessing import OneHotEncoder
 
 # dataframe print(확인용)
 pd.set_option('display.unicode.east_asian_width', True)
 
-df = pd.read_csv('C:/Users/Admin/Documents/GitHub/capstone-2022-39/data/워크넷(공고-제목,모집분야)-최종.csv')
+df = pd.read_csv('C:/Users/Admin/Documents/GitHub/capstone-2022-39/data/워크넷.csv')
 print(df)
 print(df.info())
 
@@ -28,12 +29,20 @@ df.drop_duplicates(subset=['제목'], inplace=True)
 df.reset_index(drop=True, inplace=True)
 print(df['제목'].duplicated().sum())
 
+# 결측값 제거
+df.dropna(inplace=True)
+df.reset_index(drop=True, inplace=True)
+
 # 문자(한글, 영문)과 숫자만 남기고 특수문자 제거
-df['제목'] = [re.sub('[^A-Za-z0-9가-힣]', '', s) for s in df['제목']]
+df['제목'] = [re.sub('[^A-Za-z0-9가-힣]', '', str(s)) for s in df['제목']]
 print(df['제목'])
 
+# 문자(한글, 영문)과 숫자만 남기고 특수문자 제거
+df['직무내용'] = [re.sub('[^A-Za-z0-9가-힣]', '', str(s)) for s in df['직무내용']]
+print(df['직무내용'])
+
 # feature, target 분리
-X = df['제목']
+X = df['제목'] + " " + df['직무내용']
 Y = df['모집분야']
 
 # target encoding 및 encoder 저장
@@ -49,36 +58,29 @@ print(labeled_Y)
 with open('C:/Users/Admin/Documents/GitHub/capstone-2022-39/data/category_encoder.pickle', 'wb') as f:
     pickle.dump(encoder, f)
 
-# one-hot encoding
 onehot_Y = to_categorical(labeled_Y)
 print(onehot_Y)
 
-# 형태소 분석
-# 첫 뉴스 타이틀 형태소 분석
-okt = Okt()
-print(type(X))
-okt_X = okt.morphs(X[0])
-print(X[0])
-print(okt_X)
-
 # 데이터 형태소 분석
+okt = Okt()
 for i in range(len(X)):
-    X[i] = okt.morphs(X[i])
+    X[i] = okt.nouns(X[i])
 print(X)
 
 # stopword 로드
 stopwords = pd.read_csv('C:/Users/Admin/Documents/GitHub/capstone-2022-39/data/stopword.csv')
 print(stopwords)
 
-# for문으로 stopword 제거
-for i in range(len(X)):
-    result = []
-    for j in range(len(X[i])):
-        if len(X[i][j]) > 1:
-            if X[i][j] not in list(stopwords['stopword']):
-                result.append(X[i][j])
-    X[i] = ' '.join(result)
-print(X)
+
+# 함수로 만들어 기존 데이터에 apply해 stopword 제거
+def delete_stopwords(lst):
+    words = [
+        word for word in lst if word not in list(stopwords["stopword"]) and len(word) > 1
+    ]
+    return " ".join(words)
+
+
+X = X.apply(delete_stopwords)
 
 # 토큰화 및 저장
 # stopword 제거한 뉴스 타이틀 토큰화
@@ -89,7 +91,7 @@ print(tokened_X[0])
 
 # 나중에 다른 문장을 토큰화할때 같은 단어는 같은 숫자로 매핑해야함 -> 학습시킨 Tokenizer 저장
 # pickle로 저장 / 불러오기시 원본의 데이터 타입 그대로 유지
-with open('C:/Users/Admin/Documents/GitHub/capstone-2022-39/data/news_token.pickle', 'wb') as f:
+with open('C:/Users/Admin/Documents/GitHub/capstone-2022-39/data/category_token.pickle', 'wb') as f:
     pickle.dump(token, f)
 
 # 단어의 개수 출력 / padding한 0을 포함하기 위해 +1

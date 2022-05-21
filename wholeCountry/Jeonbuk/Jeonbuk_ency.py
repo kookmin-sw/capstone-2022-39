@@ -65,9 +65,6 @@ def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, 
                                       '//*[@id="contentBox"]/div/table['
                                       '3]/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[4]/td').text
 
-            # 모집 분야 추출
-            recruitment_field = areas_of_recruitment(detail_link_connect[0])
-
             # 우대 사항 추출
             qualification_license = '-'
 
@@ -96,6 +93,9 @@ def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, 
 
             # 등록일
             registration_date = detail_link_connect[2]
+
+            # 모집 분야
+            recruitment_field = areas_of_recruitment(detail_link_connect[0] + job_specifications)
 
             # primary key
             modify_title = re.sub('[^A-Za-z0-9가-힣]', '', detail_link_connect[0])

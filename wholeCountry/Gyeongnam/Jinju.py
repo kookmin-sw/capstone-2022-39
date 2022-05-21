@@ -55,9 +55,6 @@ def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, 
         # 연령 추출
         age = driver.find_element(By.XPATH, '//*[@id="mm-0"]/div[1]/div[5]/div[2]/table/tbody/tr[3]/td[2]').text
 
-        # 모집분야 추출
-        recruitment_field = areas_of_recruitment(detail_link_connect[0])
-
         # 우대사항 추출
         qualification_license = driver.find_element(By.XPATH,
                                                     '//*[@id="mm-0"]/div[1]/div[5]/div[2]/table/tbody/tr[4]/td[2]').text
@@ -85,6 +82,9 @@ def approach_detail_link_and_extract_recruitment_info(driver, detail_link_list, 
 
         # 등록일
         registration_date = detail_link_connect[2]
+
+        # 모집 분야
+        recruitment_field = areas_of_recruitment(detail_link_connect[0] + job_specifications)
 
         # primary key
         modify_title = re.sub('[^A-Za-z0-9가-힣]', '', detail_link_connect[0])

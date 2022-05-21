@@ -101,7 +101,6 @@ def detail_collect_Announcement(url, data_list, announcement_list_Worknet):
             # 모집 분야 추출
             # regex = "\(.*\)|\s-\s.*"
             # text = '{0}'.format(title)
-            recruitment_field = areas_of_recruitment(title)
 
             # 우대 사항 추출
             qualification_license = '{0}'.format(dataframe['wantedInfo.pfCond'].values[0])
@@ -121,6 +120,9 @@ def detail_collect_Announcement(url, data_list, announcement_list_Worknet):
             # 채용 담당자 추출
             recruiter = '워크넷'
             # recruiter = '{0}'.format(dataframe['wantedInfo.rcptMthd'].values[0])
+
+            # 모집 분야
+            recruitment_field = areas_of_recruitment(title + job_specifications)
 
             # 등록일
             month = today.month
