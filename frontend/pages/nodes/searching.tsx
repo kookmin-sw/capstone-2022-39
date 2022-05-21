@@ -2,23 +2,25 @@ import styled from "styled-components";
 import { useEffect, useState, } from "react";
 import Link from "next/link";
 import Loading from "../components/Loading";
-import { cityFilter, dataAtom } from "../../atoms";
+import { cityFilter, dataAtom, jobAtom } from "../../atoms";
 import { useRecoilState, useRecoilValue} from "recoil";
 
 
 export default function Searching(){
 
     const [data, setData] = useRecoilState(dataAtom);
+    const [job, setJob] = useRecoilState(jobAtom);
     const selector = useRecoilValue(cityFilter);
 
     const getData = async() => {
-        const json = await(await fetch('https://s3.us-west-2.amazonaws.com/secure.notion-static.com/bcedc431-821d-4734-b59e-9875ccd72a89/announcement_list.json?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220518%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220518T140115Z&X-Amz-Expires=86400&X-Amz-Signature=a4d911a0a181ec0f67f52dad01bb001a0f6b8f16c709bcdd36bdf54c0087b382&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22announcement_list.json%22&x-id=GetObject')).json();
+        const json = await(await fetch('https://s3.us-west-2.amazonaws.com/secure.notion-static.com/bcedc431-821d-4734-b59e-9875ccd72a89/announcement_list.json?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220519%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220519T151206Z&X-Amz-Expires=86400&X-Amz-Signature=60ea9b81012dd4cdb2a44ce377bf481e50f7c81e350939e03e6355c12ee9e494&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22announcement_list.json%22&x-id=GetObject')).json();
         setData(json);
       };
 
     useEffect(()=>{getData()},[]);
 
     console.log(selector);
+    console.log(job);
     const [page, setPage] = useState<number>(1);
     let nbtn = Math.ceil(selector?.length/20);
     
@@ -49,12 +51,6 @@ export default function Searching(){
                     <Box>
                         {/* {test?.map((data, index) =><Link href={{ */}
                         <NodeBox>
-                            {/* <Tr>
-                                <Th>공고 제목</Th>
-                                <Th>지역</Th>
-                                <Th>시간</Th>
-                                <Th>임금</Th>
-                            </Tr> */}
                             {test?.map((data, index) =><Link href={{
                             pathname: `/nodes/${{data}.data.title}`, 
                             query:{ 
@@ -74,7 +70,8 @@ export default function Searching(){
                         // }}><p>{index} <span key={index}>{{data}.data.title}</span></p></Link>)}
                         }}>
                             <Tr key={index}>
-                                <Th>{{data}.data.title}</Th>
+                                <State>모집 중</State> 
+                                <Title>{{data}.data.title}</Title>
                                 <Th>{{data}.data.workplace}</Th>
                                 <Th>{{data}.data.business_hours}</Th>
                                 <Th>{{data}.data.wages}</Th>
@@ -100,6 +97,9 @@ const Container = styled.div`
 `;
 
 const Contents = styled.div`
+    margin-top: 15vh;
+    margin-top: 15vh;
+
     display: flex;
     justify-content: center;
     align-items:center;
@@ -135,18 +135,39 @@ const Btn = styled.button`
 `;
 
 const NodeBox = styled.table`
-    border-collapse: collapse;
-
-`;
+    border-collapse: collapse;`;
 
 const Th = styled.th`
     display: inline-block;
     width: 250px;
     font-size: 20px;
     padding: 15px;
-`; 
+    cursor: pointer; 
+    font-weight: 300;
+`;
+
+const State = styled(Th)`
+    color: ${(props)=> props.theme.colors.GRAY};
+    background : ${(props)=> props.theme.colors.BLUE};  
+    width: 80px;
+    border-radius: 10px;
+    padding: 10px;
+    margin-left: 9vh;
+    margin-right: 3vh;
+
+`;
+
+const Title = styled(Th)`
+    font-size: 22px;
+    width: 300px;
+    border-radius: 10px;
+    padding: 10px;
+    font-weight: 400;
+`;
+
 
 const Tr = styled.tr`
-    border: solid ${(props)=> props.theme.colors.BLUE};  
+    border-bottom-style: solid;
+    border-bottom-color: ${(props)=> props.theme.colors.BLUE};  
     border-radius: 50px;
 `;

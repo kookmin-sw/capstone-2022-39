@@ -23,12 +23,14 @@ export default function Home(){
 }
 
 const Container = styled.div`
+
     text-align: center;
     display: grid;
     place-items: center;
 `;
 
 const Contents = styled.div`
+    max-width: 1000px;
     display: flex;
     justify-content: center;
     align-items:center;

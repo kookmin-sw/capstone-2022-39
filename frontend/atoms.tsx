@@ -28,8 +28,8 @@ export const city2Atom = atom({
     default: "",
 });
 
-export const jobsAtom = atom({
-    key: "jobs",
+export const jobAtom = atom({
+    key: "job",
     default: "",
 });
 
@@ -43,10 +43,19 @@ export const dataAtom = atom<Idata[]>({
     default: [],
 });
 
+export const jobSelector = selector({
+    key: "jobfilter",
+    get: ({ get }) => {
+        const data = get(dataAtom);
+    let job = get(jobAtom);
+    return {data}.data.filter(data => ({data}.data.recruitment_field) == job);
+    }
+});
+
 export const cityFilter = selector({
   key: "cityfilter",
   get: ({ get }) => {
-    const data = get(dataAtom);
+    const data = get(jobSelector);
 
     let city = get(cityAtom);
     city = city.replace("특별시", "");
@@ -72,3 +81,4 @@ export const cityFilter = selector({
     return {data}.data.filter(data => ({data}.data.workplace.includes(city) || {data}.data.workplace.includes(city1) || {data}.data.workplace.includes(city2)));
     }
 });
+

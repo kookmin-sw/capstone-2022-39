@@ -13,5 +13,6 @@ export const theme: DefaultTheme = {
       GRAY: '#F8F8F9',
       BLUE: '#1070FF',
       POINT_BLUE: '#003ffc',
+      POINT_GRAY: '#6E6E73',
     },
   };

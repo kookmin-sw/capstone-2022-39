@@ -1,20 +1,37 @@
 import styled, {keyframes} from "styled-components";
 import { useRecoilState } from "recoil";
-import { jobsAtom } from "../atoms";
+import { jobAtom } from "../atoms";
 import Link from "next/link";
 export default function Job(){
     const test = ["보험","경호원","환경미화원","청소","파일정리","테스트","테스트입니다"]
 
-    const [jobs, setJobs] = useRecoilState(jobsAtom);
+    const [job, setJob] = useRecoilState(jobAtom);
     const onClick = (e : React.MouseEvent<HTMLButtonElement>) => {
-        setJobs(e.target.name);
+        setJob(e.target.name);
     }
+
+
+    let category : string[] =  [
+        "경영·사무",
+        "연구·공학기술",
+        "사회복지",
+        "보건·의료",
+        "예술·엔터테인먼트",
+        "서비스직",
+        "영업·판매·운송",
+        "건설·채굴",
+        "기계·금속",
+        "전자·정보통신",
+        "화학·섬유·식품가공",
+        "제조업",
+        "농립·어업",
+    ];
 
     return (
         <Container>
             <Contents>
                 <Question>원하시는 직종이 있으신가요?</Question>
-                {test.map((test, index) => <Link href={"/nodes/searching"}><Choice key = {index} onClick={onClick} name={test}>{test}</Choice></Link>)}
+                {category.map((job, index) => <Link href={"/nodes/searching"}><Choice key = {index} onClick={onClick} name={job}>{job}</Choice></Link>)}
             {/* //     <br></br>
             //  <Link href={"/searching"}>확인</Link> */}
 

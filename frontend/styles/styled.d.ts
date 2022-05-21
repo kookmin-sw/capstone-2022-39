@@ -14,6 +14,7 @@ declare module 'styled-components' {
       GRAY: string;
       BLUE: string;
       POINT_BLUE: string;
+      POINT_GRAY: string;
     };
   }
 }

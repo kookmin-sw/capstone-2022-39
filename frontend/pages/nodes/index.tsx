@@ -17,6 +17,7 @@ export default function Node(){
         setData(json);
       };
 
+
     useEffect(()=>{getData()},[]);
     const [page, setPage] = useState<number>(1);
     const nbtn = Math.ceil(data?.length/20);
