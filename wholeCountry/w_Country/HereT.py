@@ -134,7 +134,7 @@ def main(driver):
     xpath_button = '//*[@id="container_wr"]/div[1]/div[3]/button/i'
 
     # 지리 리스트
-    f = open(r"C:\Users\Admin\Documents\GitHub\capstone-2022-39\wholeCountry\w_Country\test.txt", 'r',
+    f = open(r"C:\Users\Admin\Documents\GitHub\capstone-2022-39\wholeCountry\w_Country\district.txt", 'r',
              encoding="cp949")
 
     while True:
