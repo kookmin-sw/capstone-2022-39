@@ -6,7 +6,7 @@ from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 import time
 from wholeCountry.areas_of_recruitment import areas_of_recruitment
-import json
+import re
 
 
 def extract_url(soup):
@@ -72,6 +72,15 @@ def approach_detail_link_and_extract_recruitment_info(driver, announments_list, 
         # 모집 분야
         recruitment_field = areas_of_recruitment(announment[0] + job_specifications)
 
+        # 등록일
+        registration_date = driver.find_element(By.XPATH, '//*[@id="dFrAcptDd"]').text
+
+        # primary key
+        modify_title = re.sub('[^A-Za-z0-9가-힣]', '', announment[0])
+        modify_recruiter = re.sub('[^A-Za-z0-9가-힣]', '', recruiter)
+        modify_workplace = re.sub('[^A-Za-z0-9가-힣]', '', workplace)
+        primary_key = "JB" + str(modify_title) + "#" + str(modify_recruiter) + "#" + str(modify_workplace)
+
         data = {
             'title': announment[0],
             'url': announment[1],
@@ -84,7 +93,9 @@ def approach_detail_link_and_extract_recruitment_info(driver, announments_list, 
             'wages': wages,
             'business_hours': business_hours,
             'recruiter': recruiter,
-            'contact_address': contact_address
+            'contact_address': contact_address,
+            'registration_date': registration_date[8:16],
+            'primary_key': primary_key
         }
 
         announcement_list_Here.append(data)
@@ -123,7 +134,7 @@ def main(driver):
     xpath_button = '//*[@id="container_wr"]/div[1]/div[3]/button/i'
 
     # 지리 리스트
-    f = open(r"C:\Users\Admin\Documents\GitHub\capstone-2022-39\wholeCountry\w_Country\district.txt", 'r',
+    f = open(r"C:\Users\Admin\Documents\GitHub\capstone-2022-39\wholeCountry\w_Country\test.txt", 'r',
              encoding="cp949")
 
     while True:

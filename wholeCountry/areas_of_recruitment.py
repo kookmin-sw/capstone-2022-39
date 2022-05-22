@@ -8,22 +8,22 @@ import pandas as pd
 
 
 # LabelEncoder 로드
-with open(r'C:\Users\Admin\Documents\GitHub\capstone-2022-39\data\category_encoder.pickle', 'rb') as f:
+with open(r'C:\Users\Admin\Documents\GitHub\capstone-2022-39\success\category_encoder.pickle', 'rb') as f:
     encoder = pickle.load(f)
 category = encoder.classes_
 # print(category)
 
 # 정수 인코딩을 위한 토큰 가져오기
-with open(r'C:\Users\Admin\Documents\GitHub\capstone-2022-39\data\category_token.pickle', 'rb') as f:
+with open(r'C:\Users\Admin\Documents\GitHub\capstone-2022-39\success\category_token.pickle', 'rb') as f:
     train_tokenizer = pickle.load(f)
 
 # 모델 로드
-json_file = open(r'C:\Users\Admin\Documents\GitHub\capstone-2022-39\data\model.json', 'r')
+json_file = open(r'C:\Users\Admin\Documents\GitHub\capstone-2022-39\success\model.json', 'r')
 loaded_model_json = json_file.read()
 json_file.close()
 model = model_from_json(loaded_model_json)
 
-model.load_weights(r'C:\Users\Admin\Documents\GitHub\capstone-2022-39\data\category_classification_0.7607.h5')
+model.load_weights(r'C:\Users\Admin\Documents\GitHub\capstone-2022-39\success\category_classification_0.7214.h5')
 
 stopwords = pd.read_csv(r'C:\Users\Admin\Documents\GitHub\capstone-2022-39\data\stopword.csv')
 
@@ -43,7 +43,7 @@ def areas_of_recruitment(title):
     tokened_Title = train_tokenizer.texts_to_sequences(okt_title)
     # print(tokened_Title)
 
-    X_pad = pad_sequences(tokened_Title, 337)
+    X_pad = pad_sequences(tokened_Title, 24)
     # print(X_pad)
 
     pred_test = model.predict(X_pad)
