@@ -1,16 +1,13 @@
 import requests
 import json
-from django.contrib.auth.models import AbstractUser
-from django.db import models
 from django.core.exceptions import ValidationError
 
 
-def validator(value):
-    SERVICE_KEY = ""
+def company_id_validator(value):
+    SERVICE_KEY = "fBsTHfPJGwtfAXV8AUEs%2BbePcFnlBWXOUFL43JGpOK%2ByY4eLmfeLAF2O7MBgVp9ggJCVTDXB9JwCmJv7I8XfOg%3D%3D"
     url = f"https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey={SERVICE_KEY}&returnType=JSON"
 
-    company_no = "3128105829"
-
+    company_no = value.replace('-', '')
     headers = {
         "Content-Type": "application/json"
     }
@@ -30,13 +27,8 @@ def validator(value):
     else:
         return False
 
-
 def validate_company_id(value):
-    if validator(value) is True:
+    if company_id_validator(value) is True:
         return value
     else:
         raise ValidationError("잘못된 사업자 등록번호 입니다.")
-
-class User(AbstractUser):
-    website_url = models.URLField(blank=True)
-    company_id = models.CharField(blank=True, max_length=12, validators=[validate_company_id])

@@ -46,12 +46,15 @@ INSTALLED_APPS = [
     # Third Apps
     'debug_toolbar',
     'bootstrap4',
+    'rest_framework',
+    'corsheaders',
     # Local Apps
     'accounts',
     'board',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -62,13 +65,21 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:3000",
+    "http://127.0.0.1:8000",
+]
+
+CORS_ALLOW_CREDENTIALS = True
+
 ROOT_URLCONF = 'illganzi.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'illganzi/templates'),
+            # os.path.join(BASE_DIR, 'illganzi/templates'),
+            os.path.join(BASE_DIR, 'frontend', 'build'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -80,6 +91,10 @@ TEMPLATES = [
             ],
         },
     },
+]
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'frontend', 'build', 'static'),
 ]
 
 WSGI_APPLICATION = 'illganzi.wsgi.application'

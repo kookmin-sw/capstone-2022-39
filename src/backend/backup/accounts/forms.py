@@ -24,3 +24,11 @@ class SignupForm(UserCreationForm):
             if qs.exists():
                 raise forms.ValidationError("이미 사용중인 이메일 주소입니다.")
         return email
+
+    def clean_company_id(self):
+        company_id = self.cleaned_data.get('company_id')
+        if company_id:
+            qs = User.objects.filter(company_id=company_id)
+            if qs.exists():
+                raise forms.ValidationError("이미 사용중인 사업자등록번호 입니다.")
+        return company_id
