@@ -30,7 +30,7 @@ export const city2Atom = atom({
 
 export const jobAtom = atom({
     key: "job",
-    default: "",
+    default: "전체",
 });
 
 export const citydataAtom = atom({
@@ -43,20 +43,26 @@ export const dataAtom = atom<Idata[]>({
     default: [],
 });
 
-export const jobSelector = selector({
-    key: "jobfilter",
+
+export const keyWordAtom = atom({
+    key:"keyWordAtom",
+    default: "default",
+})
+
+export const keyWordFilter = selector({
+    key: "keyWordFilter",
     get: ({ get }) => {
-        const data = get(dataAtom);
-    let job = get(jobAtom);
-    return {data}.data.filter(data => ({data}.data.recruitment_field) == job);
+    let data = get(dataAtom);
+    let keyword = get(keyWordAtom);
+    return {data}.data.filter(data => ({data}.data.workplace.includes(keyword) || {data}.data.title.includes(keyword) || {data}.data.recruitment_field.includes(keyword) || {data}.data.qualification_license.includes(keyword)));
     }
 });
+
 
 export const cityFilter = selector({
   key: "cityfilter",
   get: ({ get }) => {
-    const data = get(jobSelector);
-
+    let data = get(dataAtom);
     let city = get(cityAtom);
     city = city.replace("특별시", "");
     city = city.replace("광역시", "");
@@ -64,8 +70,6 @@ export const cityFilter = selector({
     city = city.replace("특별자치도", "");
     console.log("city:", city);
 
-    //서구 같은 경우는 서구라고 적으니까.. 
-    // 서구 -> 강서구,, 뜨는...
     let city1 = get(city1Atom);
     if (city1.length > 2){
         city1 = city1.slice(0, -1); //맨 끝 글자만 자르기
@@ -82,3 +86,11 @@ export const cityFilter = selector({
     }
 });
 
+export const jobSelector = selector({
+    key: "jobfilter",
+    get: ({ get }) => {
+        const data = get(cityFilter);
+    let job = get(jobAtom);
+    return {data}.data.filter(data => ({data}.data.recruitment_field) == job);
+    }
+});

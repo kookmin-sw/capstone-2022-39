@@ -3,9 +3,12 @@ import React, { useEffect, useState } from "react";
 import { cityAtom, city1Atom, city2Atom, citydataAtom } from "../atoms";
 import { useRecoilState } from "recoil";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 
 export default function City(){
+    const router = useRouter();
+
 
     const [cityData, setCityData] = useRecoilState(citydataAtom);
 
@@ -53,7 +56,8 @@ export default function City(){
     }
     const onClickBox2 = (e : React.MouseEvent<HTMLButtonElement>) => {
         setCity2(e.target.name);
-        setDisable(true)
+        setDisable(true);
+        router.push('/nodes/loading');
     }
 
     return( 
@@ -62,13 +66,11 @@ export default function City(){
             <Block1>
                 <Question disable={question}>어느 지역에 거주 중이세요?</Question>
                 <Choice>{city} {city1} {city2}</Choice>
-                {/* <Answer disable={disable}>에서 거주 중이에요.</Answer> */}
-                <Link href={"/job"}>확인</Link>
             </Block1>
             <Block2>
                 <BoxContainer>{Object.keys(cityData).map((state, index) =><Box onClick={onClickBox} name={state}>{state}</Box>)}</BoxContainer> 
-                <BoxContainer1>{isClick ? <div>{Object.keys(cityData[`${city}`]).map((state, index) => <Box onClick={onClickBox1} name={state}>{state}</Box>)}</div> : <span></span>}</BoxContainer1>
-                {tmp && isClick1 ? <BoxContainer2>{tmp[`${city1}`].map((state, index) => <Box onClick={onClickBox2} name={state}>{state}</Box>)}</BoxContainer2>: <span></span>}
+                <BoxContainer>{isClick ? <div>{Object.keys(cityData[`${city}`]).map((state, index) => <Box onClick={onClickBox1} name={state}>{state}</Box>)}</div> : <span></span>}</BoxContainer>
+                {tmp && isClick1 ? <BoxContainer>{tmp[`${city1}`].map((state, index) => <Box onClick={onClickBox2} name={state}>{state}</Box>)}</BoxContainer>: <span></span>}
             </Block2>
            </Contents>
         </Container>
@@ -136,49 +138,13 @@ const Answer = styled.span<{disable: boolean}>`
 `;
 
 const BoxContainer = styled.div`
-    width: 230px;
+    width: 300px;
     height: 60vh;
     text-align: center;
     overFlow : scroll;
     &::-webkit-scrollbar {
-        width: 9px;
-        height: 1px;
-        border-radius: 6px;
-        background: rgba(255, 255, 255, 0.4);
+        style: none;
     }
-    &::-webkit-scrollbar-thumb {
-        background-color: rgba(0, 0, 0, 0.3);
-        border-radius: 6px;
-    }
-`;
-
-const BoxContainer1 = styled.div`
-    width: 230px;
-    height: 60vh;
-    overFlow : scroll;
-    &::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
-        border-radius: 6px;
-        background: rgba(255, 255, 255, 0.4);
-    }
-    &::-webkit-scrollbar-thumb {
-        background-color: rgba(0, 0, 0, 0.3);
-        border-radius: 6px;
-    }
-`;
-
-const BoxContainer2 = styled.div`
-    width: 230px;
-    height: 60vh;
-    overFlow : scroll;
-    &::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
-        border-radius: 6px;
-        background: rgba(255, 255, 255, 0.4);
-    }
-
     &::-webkit-scrollbar-thumb {
         background-color: rgba(0, 0, 0, 0.3);
         border-radius: 6px;
@@ -209,24 +175,3 @@ const Box = styled.button`
         color: ${(props)=> props.theme.colors.GRAY};
     }
 `;
-
-const Btn = styled.button`
-    font-size: 32px;
-    position: relative;
-    background-color: #1070FF;
-    border: none;
-    letter-spacing: 1px;
-    font-weight: 800px;
-    color: #FFFFFF;
-    padding: 25px;
-    width: 200px;
-    text-align: center;
-    border-radius: 10px;
-    text-decoration: none;
-    cursor: pointer;
-    margin-top: 30px;
-
-    &:hover{
-        background-color: ${(props)=> props.theme.colors.POINT_BLUE};
-    }
-`
