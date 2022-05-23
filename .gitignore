@@ -6,5 +6,6 @@ db.sqlite3
 /practice
 .idea
 *.pem
+*.ppk
 secrets.json
 keys.json

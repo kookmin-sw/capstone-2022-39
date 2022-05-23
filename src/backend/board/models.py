@@ -20,19 +20,16 @@ class Post(BaseModel):
         verbose_name="제목"
     )
     url = models.URLField(blank=True, verbose_name="URL")
-    location = models.CharField(max_length=50, verbose_name="회사 주소")
-    gather_count = models.IntegerField(
-        default=1,
-        validators=[MinValueValidator(1)],
-        verbose_name="모집인원"
-    )
+    location = models.CharField(max_length=50, verbose_name="근무지")
+    gather_count = models.CharField(max_length=50, verbose_name="모집인원")
     category = models.CharField(max_length=10, verbose_name="모집분야")
-    favor = models.CharField(max_length=70, verbose_name="우대사항")
-    content = models.TextField(verbose_name="내용")
-    pay = models.CharField(max_length=50, verbose_name="급여액")
-    work_time = models.CharField(max_length=50, verbose_name="근무시간")
-    call_number = models.CharField(max_length=13, verbose_name="연락처")
-    qualification_license = models.CharField(max_length=70, verbose_name="자격요건", blank=True)
+    recruiter = models.CharField(max_length=50, verbose_name="담당자명", default='-')
+    employment = models.CharField(max_length=70, verbose_name="고용형태", default='-')
+    content = models.TextField(verbose_name="특이사항", default='-')
+    pay = models.CharField(max_length=50, verbose_name="임금", default='-')
+    work_time = models.CharField(max_length=50, verbose_name="근무시간", default='-')
+    call_number = models.CharField(max_length=13, verbose_name="연락처", default='-')
+    qualification_license = models.CharField(max_length=70, verbose_name="자격사항", default='-')
 
     def get_absolute_url(self):
         return reverse('board:post_detail', args=[self.pk])

@@ -1,10 +1,10 @@
+import boto3
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import AllowAny
 from .models import Post
 from .serializers import PostSerializer
-from .aws_link import insert_recruitment
 
 
 class PostViewSet(ModelViewSet):
