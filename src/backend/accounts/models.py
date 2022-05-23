@@ -5,12 +5,6 @@ from .validators import validate_company_id
 
 
 class User(AbstractUser):
-    class GenderChoices(models.TextChoices):
-        MALE = "M", "남성"
-        FEMALE = "F", "여성"
-
-    gender = models.CharField(max_length=1, choices=GenderChoices.choices, verbose_name='성별')
-    website_url = models.URLField(blank=True, verbose_name='웹 사이트 주소')
     phone_number = models.CharField(
         max_length=13,
         validators=[RegexValidator(r"^010-?[1-9]\d{3}-?\d{4}$")],

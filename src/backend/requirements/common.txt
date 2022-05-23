@@ -4,3 +4,4 @@ djangorestframework-jwt
 django-cors-headers
 pillow
 boto3
+requests
