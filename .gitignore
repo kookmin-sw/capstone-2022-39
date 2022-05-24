@@ -1,0 +1,11 @@
+__pycache__
+db.sqlite3
+/static
+/media
+/backup
+/practice
+.idea
+*.pem
+*.ppk
+secrets.json
+keys.json

@@ -1,0 +1,7 @@
+django~=3.0.0
+djangorestframework
+djangorestframework-jwt
+django-cors-headers
+pillow
+boto3
+requests

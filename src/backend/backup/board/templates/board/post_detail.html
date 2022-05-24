@@ -1,0 +1,21 @@
+{% extends "board/layout.html" %}
+{% load bootstrap4 %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 offset-sm-3">
+                <p>작성자: {{ post.author }}</p>
+                <p>제목: {{ post.title }}</p>
+                <p>URL: {{ post.url }}</p>
+                <p>근무지: {{ post.location }}</p>
+                <p>모집인원: {{ post.gather_count }}</p>
+                <p>모집분야: {{ post.category }}</p>
+                <p>우대사항: {{ post.favor }}</p>
+                <p>내용: {{ post.content }}</p>
+                <p>급여: {{ post.pay }}</p>
+                <p>근무시간: {{ post.work_time }}</p>
+                <p>연락처: {{ post.call_number }}</p>
+    <hr>
+    <a href="{% url "board:post_list" %}" class="btn btn-primary">목록</a>
+{% endblock content %}

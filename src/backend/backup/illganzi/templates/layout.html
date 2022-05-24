@@ -1,0 +1,49 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>일간지 :: 구인·구직 웹 서비스</title>
+    <link rel="stylesheet" href="{% static "bootstrap-4.6.1-dist/css/bootstrap.min.css" %}">
+    <script src="{% static "jquery-3.6.0.min.js" %}"></script>
+    <script src="{% static "bootstrap-4.6.1-dist/js/bootstrap.min.js" %}"></script>
+
+</head>
+<body>
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+
+<div class="border-bottom mb-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                  <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 bg-white">
+                  <h5 class="my-0 mr-md-auto font-weight-normal">
+                          <a href="/">일간지</a>
+                  </h5>
+
+                  {% if not user.is_authenticated %}
+                      <a class="btn btn-outline-primary mr-3" href="{% url 'board:post_list' %}">공고 목록</a>
+                      <a class="btn btn-outline-primary mr-3" href="{% url 'login' %}?next={{ request.get_full_path }}">기업 로그인</a>
+                      <a class="btn btn-outline-primary" href="{% url 'signup' %}">기업 회원가입</a>
+                  {% else %}
+                      <a class="btn btn-outline-primary mr-3" href="{% url 'board:post_list' %}">공고 목록</a>
+                      <a class="btn btn-outline-primary" href="{% url 'logout' %}?next={{ request.get_full_path }}">로그아웃</a>
+                  {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    {% block content %}
+    {% endblock %}
+</body>
+</html>
