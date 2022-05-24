@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { cityAtom, city1Atom, city2Atom, citydataAtom } from "../../atoms";
 import { useRecoilState } from "recoil";
 import { useRouter } from "next/router";
+import address from"../../api/address.json";
 
 
 export default function City(){
@@ -11,11 +12,16 @@ export default function City(){
 
     const [cityData, setCityData] = useRecoilState(citydataAtom);
 
-    const getData = async() => {
-        const json = await(await fetch('https://cors-anywhere.herokuapp.com/https://addr-info.s3.ap-northeast-2.amazonaws.com/address.json')).json();
+    // const getData = async() => {
+    //     const json = await(await fetch('https://cors-anywhere.herokuapp.com/https://addr-info.s3.ap-northeast-2.amazonaws.com/address.json')).json();
         
+    //     setCityData(json);
+    //   };
+    
+    const getData = async() => {
+        const json = JSON.parse(JSON.stringify(address)); 
         setCityData(json);
-      };
+    };
     
 
     useEffect(()=>{getData()},[]);
@@ -89,7 +95,7 @@ const Contents = styled.div`
 `;
 const Block1 = styled.div`
     height: 100px;
-`;
+    `;
 
 
 const Block2 = styled.div`
@@ -110,6 +116,7 @@ const Question = styled.div`
     font-weight: bold;
     animation-name: ${Animation};
     animation-duration: 1s;
+    padding: 20px;;
 `;
 
 /* const Question = styled.span<{disable: boolean}>`
@@ -128,6 +135,7 @@ const Choice = styled.span`
 `;
 
 const Answer = styled.span<{disable: boolean}>`
+    padding: 10px;
     font-size: 50px;
     font-weight: bold;
     display: ${p => p.disable ? 'initial' : 'none'};
