@@ -167,4 +167,5 @@ JWT_AUTH = {
 }
 
 # For Dev
-CORS_ORIGIN_WHITELIST = ["http://localhost:3000"]
+CORS_ORIGIN_WHITELIST = ["http://localhost", "http://3.38.225.207", "http://3.38.225.207:3000"]
+CORS_ALLOW_CREDENTIALS = True
