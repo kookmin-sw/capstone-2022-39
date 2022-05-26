@@ -20,7 +20,6 @@ export default function Searching(){
 
         docClient.scan(params, function (err, json) {
             if (!err) {
-                console.log(json.Items);
                 setData(json.Items);
             }
         })
@@ -47,9 +46,17 @@ export default function Searching(){
     const end : number = (page == nbtn) ? selector?.length : (start + 20); // (0,20) (20,40)
     const test = selector?.slice(start, end); 
 
+
+    const handleScroll = () => {
+        window.scrollTo({
+            top: 0,
+        });
+    }
+
     const btnHandle = (e : React.MouseEvent<HTMLButtonElement>) => {
         setPage(parseInt(e.target.name));
         setInitBtn(false);
+        handleScroll();
     }
 
     for (let i=1; i<nbtn; i++) btnlist.push(i);

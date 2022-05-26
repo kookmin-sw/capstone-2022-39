@@ -2,8 +2,11 @@ import styled, {keyframes} from "styled-components"
 import Link from "next/link";
 import Image from "next/image";
 import Emo from "../public/emo.png";
+import { useRecoilValue } from "recoil";
+import { loginAtom } from "../atoms";
 
 export default function Home(){
+    const login = useRecoilValue(loginAtom);
     
     return (
     <Container>
@@ -14,10 +17,11 @@ export default function Home(){
             <Link href={"nodes/city"}>
                 <Btn>좋아요.</Btn>
             </Link>
-            <Link href={"/nodes"}><Btn2>모든 공고 보러가기 ></Btn2></Link>
+            <Link href={"/nodes"}><Btn2>모든 공고 보러가기 {'>'}</Btn2></Link>
             <Wrap>
                 <Image src={Emo} width={25} height={20} alt="emo"/>
-                <Link href={"/user/"}><span>공고 글을 올리고 싶나요?</span></Link>
+                {login === false ? <Link href={"/user/"}><span>공고 글을 올리고 싶나요?</span></Link>
+                : <Link href={"/user/write"}><span>공고 글을 올리고 싶나요?</span></Link>}
             </Wrap>
         </Contents>
     </Container>
@@ -25,7 +29,6 @@ export default function Home(){
 }
 
 const Container = styled.div`
-
     text-align: center;
     display: grid;
     place-items: center;

@@ -28,8 +28,8 @@ node_modules
 
 # misc
 .DS_Store
-*.pem
 
+*.pem
 # debug
 yarn-debug.log*
 yarn-error.log*

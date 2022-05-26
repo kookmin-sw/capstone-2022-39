@@ -17,7 +17,6 @@ export default function Searching(){
 
         docClient.scan(params, function (err, json) {
             if (!err) {
-                console.log(json.Items);
                 setData(json.Items);
             }
         })
@@ -49,13 +48,7 @@ export default function Searching(){
         "농립·어업",
     ];
 
-
     useEffect(()=>{fetchDataFormDynamoDb()},[]);
-
-    console.log(data);
-    console.log("aaaa");
-    console.log(selector);
-
 
     //페이지 버튼 만들기
     const [init,setInit] = useState<boolean>(true);
@@ -69,10 +62,16 @@ export default function Searching(){
     const test = selector?.slice(start, end); 
     for (let i=1; i<nbtn; i++) btnlist.push(i);
 
+    const handleScroll = () => {
+        window.scrollTo({
+            top: 0,
+        });
+    }
 
     const btnHandle = (e : React.MouseEvent<HTMLButtonElement>) => {
         setPage(parseInt(e.target.name));
         setInitBtn(false);
+        handleScroll();
     }
 
     //handler
@@ -94,6 +93,7 @@ export default function Searching(){
                             <Box>
                                 <NodeBox>
                                     {test?.map((data, index) =><Link href={{
+                                    key: {index},
                                     pathname: `/nodes/${{data}.data.title}`, 
                                     query:{ 
                                         title: {data}.data.title ,
@@ -229,7 +229,6 @@ const CategoryBox = styled.div`
     justify-content: center;
     margin: 0 auto;
     margin-bottom: 20px;
-
 `;
 
 const Category = styled.span`
@@ -240,14 +239,12 @@ const Category = styled.span`
 
 const Choice = styled.button<{init : boolean}>`
     width: 150px;
-    overflow: hidden;
-    overflow-x: scroll;
     border-radius: 30px;
     background-color: ${(props) => props.theme.colors.GRAY};
     border: none;
     color: ${(props)=> props.theme.colors.BLACK};
     text-align: center;
-    font-size: 16px;
+    font-size: 14px;
     padding: 15px;
     font-weight: bold;
     list-style: none;
