@@ -27,15 +27,6 @@ export default function App({Component, pageProps}: AppProps) {
       <RecoilRoot>
         <ThemeProvider theme={theme}>
             <GlobalStyle/>
-            <Helmet>
-              <head>
-                {`
-                <link rel="preconnect" href="https://fonts.googleapis.com">
-                <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-                <link href="https://fonts.googleapis.com/css2?family=East+Sea+Dokdo&family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
-                `}
-            </head>
-            </Helmet>
             <Container>
               <Wrap>
                   <Link href = "/"><Logo><Image src={logo} width={100} height={45} alt="logo"></Image></Logo></Link>
