@@ -27,7 +27,7 @@ export default function App({Component, pageProps}: AppProps) {
   return (
       <RecoilRoot>
         <ThemeProvider theme={theme}>
-            <GlobalStyle />
+            <GlobalStyle/>
             <Helmet>
               <head>
                 {`
@@ -37,7 +37,6 @@ export default function App({Component, pageProps}: AppProps) {
                 `}
             </head>
             </Helmet>
-              
             <Container>
               <Wrap>
                   <Link href = "/"><Logo><Image src={logo} width={100} height={45} alt="logo"></Image></Logo></Link>
