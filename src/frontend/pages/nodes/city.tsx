@@ -8,8 +8,6 @@ import address from"../../api/address.json";
 
 export default function City(){
     const router = useRouter();
-
-
     const [cityData, setCityData] = useRecoilState(citydataAtom);
 
     // const getData = async() => {
@@ -30,10 +28,6 @@ export default function City(){
     useEffect(() => {
         // componentDidMount
         setTmp(cityData[`${city}`]);
-    
-        if(tmp) {
-            console.log(tmp[`${city1}`]);
-        }
     })
 
     const [city, setCity] = useRecoilState(cityAtom);
@@ -67,13 +61,13 @@ export default function City(){
         <Container>
             <Contents>
             <Block1>
-                <Question disable={question}>어느 지역에 거주 중이세요?</Question>
+                <Question>어느 지역에 거주 중이세요?</Question>
                 <Choice>{city} {city1} {city2}</Choice>
             </Block1>
             <Block2>
-                <BoxContainer>{Object.keys(cityData).map((state, index) =><Box onClick={onClickBox} name={state}>{state}</Box>)}</BoxContainer> 
-                <BoxContainer>{isClick ? <div>{Object.keys(cityData[`${city}`]).map((state, index) => <Box onClick={onClickBox1} name={state}>{state}</Box>)}</div> : <span></span>}</BoxContainer>
-                {tmp && isClick1 ? <BoxContainer>{tmp[`${city1}`].map((state, index) => <Box onClick={onClickBox2} name={state}>{state}</Box>)}</BoxContainer>: <span></span>}
+                <BoxContainer>{Object.keys(cityData).map((state, index) =><Box key={index} onClick={onClickBox} name={state}>{state}</Box>)}</BoxContainer> 
+                <BoxContainer>{isClick ? <div>{Object.keys(cityData[`${city}`]).map((state, index) => <Box key={index} onClick={onClickBox1} name={state}>{state}</Box>)}</div> : <span></span>}</BoxContainer>
+                {tmp && isClick1 ? <BoxContainer>{tmp[`${city1}`].map((state, index) => <Box key={index} onClick={onClickBox2} name={state}>{state}</Box>)}</BoxContainer>: <span></span>}
             </Block2>
            </Contents>
         </Container>
@@ -95,7 +89,7 @@ const Contents = styled.div`
 `;
 const Block1 = styled.div`
     height: 100px;
-    `;
+ `;
 
 
 const Block2 = styled.div`
@@ -146,14 +140,19 @@ const BoxContainer = styled.div`
     width: 300px;
     height: 60vh;
     text-align: center;
-    overFlow : scroll;
-    &::-webkit-scrollbar {
+    overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar{
+        display: none;
+    }
+    /* &::-webkit-scrollbar {
         style: none;
     }
     &::-webkit-scrollbar-thumb {
-        background-color: rgba(0, 0, 0, 0.3);
+        background-color: 
         border-radius: 6px;
-    }
+    } */
 `;
 
 const Box = styled.button`

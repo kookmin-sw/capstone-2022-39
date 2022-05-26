@@ -59,7 +59,6 @@ const Spinner = styled.div`
 
 
 const Container = styled.div`
-
     text-align: center;
     display: grid;
     place-items: center;

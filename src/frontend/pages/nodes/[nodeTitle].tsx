@@ -4,8 +4,7 @@ import Link from "next/link";
 
 export default function nodeTitle(){
     const router = useRouter();
-    const URL : any = router?.query.url
-    console.log(typeof(URL));
+    const URL : any = router?.query.url;
     
     return(
         <Container>
@@ -90,7 +89,6 @@ const Btn = styled.button`
     padding: 15px;
     width: 180px;
     text-align: center;
-    border: solid ${(props)=> props.theme.colors.BLUE};
     border-width: 0.1px;
     text-decoration: none;
     cursor: pointer;
@@ -104,20 +102,10 @@ const Block2 = styled.div`
     justify-content: space-between;
     margin-top: 50px;
 `;
-const Btn1 = styled.button`
+const Btn1 = styled(Btn)`
     color: ${(props)=> props.theme.colors.BLUE};
-    font-size: 20px;
-    border: solid ${(props)=> props.theme.colors.BLUE};
-    letter-spacing: 1px;
-    font-weight: 500;
-    padding: 15px;
-    width: 180px;
-    text-align: center;
-    text-decoration: none;
-    cursor: pointer;
-    background-color: white;
-    border-width: 0.1px;
-
+    background-color: ${(props)=> props.theme.colors.GRAY};
+    cursor: default;
     &:hover{
         background-color: ${(props)=> props.theme.colors.GRAY};
     }

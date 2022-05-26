@@ -20,7 +20,7 @@ export default function Write(){
 
     const docClient = new AWS.DynamoDB.DocumentClient();
 
-    const putData = (tableName: string, data) => {
+    const putData = (tableName: string, data: any) => {
         var params = {
             TableName: tableName,
             Item: data

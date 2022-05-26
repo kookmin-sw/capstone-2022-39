@@ -2,14 +2,15 @@ import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import {useRouter} from 'next/router'
 import { useRecoilState } from "recoil";
-import { jwtToken } from "../../atoms";
+import { jwtToken, loginAtom } from "../../atoms";
 import swal from 'sweetalert';
 
 
 export default function Login(){
     const router = useRouter();
 
-    const [token, SetToken] = useRecoilState(jwtToken);
+    const [token, setToken] = useRecoilState(jwtToken);
+    const [login, setLogin] = useRecoilState(loginAtom);
 
     // const regExp = new RegExp(/^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/);
 
@@ -31,7 +32,8 @@ export default function Login(){
         .then(response => { 
                 response.non_field_errors ?  swal("실패!", "정보를 다시 확인해주세요.", "error") : (
                     swal("성공!", "로그인 되었어요.", "success"),
-                    SetToken(response.token),
+                    setToken(response.token),
+                    setLogin(true),
                     router.push("write")
                 );
             }

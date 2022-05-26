@@ -8,6 +8,7 @@ import Link from "next/link";
 import logo from "../public/logo.png";
 import Image from 'next/image'
 
+
 // STARTS HERE
 import * as AWS from 'aws-sdk'
 import { ConfigurationOptions } from 'aws-sdk'
@@ -25,7 +26,7 @@ export default function App({Component, pageProps}: AppProps) {
   return (
       <RecoilRoot>
         <ThemeProvider theme={theme}>
-            <GlobalStyle />
+            <GlobalStyle/>
             <Container>
               <Wrap>
                   <Link href = "/"><Logo><Image src={logo} width={100} height={45} alt="logo"></Image></Logo></Link>

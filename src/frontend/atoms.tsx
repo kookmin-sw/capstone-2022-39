@@ -17,6 +17,11 @@ export interface Idata {
     registration_date: string,
 }
 
+export const loginAtom = atom({
+    key: "loginAtom",
+    default: false,
+});
+
 export const jwtToken = atom({
     key: "jwtToken",
     default: "",
@@ -78,19 +83,19 @@ export const cityFilter = selector({
     city = city.replace("광역시", "");
     city = city.replace("특별자치시", "");
     city = city.replace("특별자치도", "");
-    console.log("city:", city);
+    // console.log("city:", city);
 
     let city1 = get(city1Atom);
     if (city1.length > 2){
         city1 = city1.slice(0, -1); //맨 끝 글자만 자르기
     }
-    console.log("city1:" , city1);
+    // console.log("city1:" , city1);
 
     let city2 = get(city2Atom);
     if (city2.length > 2){
         city2 = city2.slice(0, -1);
     }
-    console.log("city2:" , city2);
+    // console.log("city2:" , city2);
 
     return {data}.data.filter(data => ({data}.data.workplace.includes(city) || {data}.data.workplace.includes(city1) || {data}.data.workplace.includes(city2)));
     }
