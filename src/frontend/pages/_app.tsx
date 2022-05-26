@@ -12,7 +12,6 @@ import Image from 'next/image'
 // STARTS HERE
 import * as AWS from 'aws-sdk'
 import { ConfigurationOptions } from 'aws-sdk'
-import { Helmet } from 'react-helmet';
 
 const configuration: ConfigurationOptions = {
     region: process.env.NEXT_PUBLIC_REGION,
