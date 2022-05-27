@@ -112,7 +112,7 @@ export default function Write(){
 return (
     <Container>
 
-        {login === false ? <Contents><Question>글을 작성하실 수 없습니다. <br/> 로그인 후 이용해주세요. </Question></Contents>
+        {login === false ? <Contents><Question> 정상적인 접근이 아닙니다.</Question></Contents>
         :
         <Contents>
             <Form   
