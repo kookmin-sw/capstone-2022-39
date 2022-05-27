@@ -35,7 +35,7 @@ Therefore, this Hiring Web Service Platform offers information on hiring positio
 ![YH](https://user-images.githubusercontent.com/39540473/161184896-53483839-c4f5-49bd-ba27-473f073ffa89.jpg)
 ```
 학번: 20171597
-역할: Back-end 개발, AWS 서버 구축
+역할: Back-end 개발, AWS 시스템 구성
 E-mail: the_basic_@kookmin.ac.kr
 ```
 
