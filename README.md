@@ -70,7 +70,6 @@ E-mail: ddrrff@kookmin.ac.kr
 ![image](https://user-images.githubusercontent.com/28584171/170628064-acd0f6fb-1922-4b4d-b6bd-9df41f6ac9ac.png)
 
 ### 시스템 설계도 (기업 사용자)
+![image](https://user-images.githubusercontent.com/28584171/170628459-bce85dd9-f941-4f22-aa44-f49dbcad2dde.png)
 
-
-* 사용한 프레임워크: Django, React
 * 협업 방법 : Slack, Notion, Github
