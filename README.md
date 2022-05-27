@@ -58,10 +58,19 @@ E-mail: ddrrff@kookmin.ac.kr
 ```
 
 ## 5. 사용법
-
+### 웹 서비스 바로가기
 [![image](https://user-images.githubusercontent.com/28584171/170623610-633e95e0-f7a1-49d0-8bce-0189f13d394a.png)](http://3.38.225.207:3000/)
 
 ## 6. 기타
+
+### 시스템 구조
+![image](https://user-images.githubusercontent.com/28584171/170627844-dd8505a1-601c-44c8-a8b0-98f356060983.png)
+
+### 시스템 설계도 (일반 사용자)
+![image](https://user-images.githubusercontent.com/28584171/170628064-acd0f6fb-1922-4b4d-b6bd-9df41f6ac9ac.png)
+
+### 시스템 설계도 (기업 사용자)
+
 
 * 사용한 프레임워크: Django, React
 * 협업 방법 : Slack, Notion, Github
