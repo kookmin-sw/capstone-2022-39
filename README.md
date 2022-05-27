@@ -22,6 +22,11 @@ Therefore, this Hiring Web Service Platform offers information on hiring positio
 ### 중간 발표 영상
 [![image](https://user-images.githubusercontent.com/28584171/162363915-d025f710-1c74-4d29-9cf0-7e941097653d.png)](https://www.youtube.com/watch?v=dYVHX2gFoWc)
 
+### 최종 발표 영상
+[![image](https://user-images.githubusercontent.com/28584171/170625801-a0348acb-717b-4b4d-9ab4-80ea2a95aa1b.png)](https://drive.google.com/file/d/1oA-qORIvQZaQdFA-quPuKxpGJx2p5jVT/view?usp=sharing)
+
+### 시연 영상
+[![image](https://user-images.githubusercontent.com/28584171/170625990-9e0befda-7bb4-4963-9a7e-092be969378a.png)](https://drive.google.com/file/d/1ShFfmb0yhAn-kG5JroFbQJYZE2jp2H3q/view?usp=sharing)
 
 ## 4. 팀 소개
 
@@ -30,7 +35,7 @@ Therefore, this Hiring Web Service Platform offers information on hiring positio
 ![YH](https://user-images.githubusercontent.com/39540473/161184896-53483839-c4f5-49bd-ba27-473f073ffa89.jpg)
 ```
 학번: 20171597
-역할: Back-end 개발
+역할: Back-end 개발, AWS 서버 구축
 E-mail: the_basic_@kookmin.ac.kr
 ```
 
@@ -48,14 +53,15 @@ E-mail: gkrrbs1018@kookmin.ac.kr
 ![홍재연](https://user-images.githubusercontent.com/39540473/161184136-0909bf62-f0ec-4d46-b803-e093b3442ac7.jpg)
 ```
 학번: 20181709
-역할: Front-end 개발
+역할: Front-end 개발, 디자인
 E-mail: ddrrff@kookmin.ac.kr
 ```
 
 ## 5. 사용법
 
-추가 예정
+[![image](https://user-images.githubusercontent.com/28584171/170623610-633e95e0-f7a1-49d0-8bce-0189f13d394a.png)](http://3.38.225.207:3000/)
 
 ## 6. 기타
 
-협업 방법 : Forking Workflow
+* 사용한 프레임워크: Django, React
+* 협업 방법 : Slack, Notion, Github
