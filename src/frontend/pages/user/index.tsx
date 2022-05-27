@@ -59,7 +59,7 @@ const Wrap = styled.div`
 `;
 
 const Btn = styled.button`
-    font-size: 35px;
+    font-size: 30px;
     position: relative;
     background-color: ${(props) => props.theme.colors.BLUE};
     color: ${(props) => props.theme.colors.GRAY};
@@ -77,7 +77,7 @@ const Btn = styled.button`
 `;
 
 const Btn2 = styled.button`
-    font-size: 35px;
+    font-size: 30px;
     position: relative;
     background-color: ${(props) => props.theme.colors.GRAY};
     color: ${(props) => props.theme.colors.BLUE};

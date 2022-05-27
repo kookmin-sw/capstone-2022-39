@@ -149,7 +149,6 @@ const Contents = styled.div`
 
 const Block = styled.div`
     margin: 0 auto;
-
 `;
 const Box = styled.span`
     display: flex;
@@ -170,7 +169,6 @@ const Btn = styled.button<{initBtn : boolean}>`
     background-color: white;
     font-weight: 500;
     cursor: pointer;  
-
     :first-child{
         color: ${(props) => props.initBtn? props.theme.colors.BLUE : props.theme.colors.POINT_GRAY};
     }
@@ -251,12 +249,10 @@ const Choice = styled.button<{init : boolean}>`
     cursor: pointer;
     margin-top: 10px;
     margin-left: 10px;
-
     :first-child{
         background-color: ${(props) => props.init? props.theme.colors.BLUE : props.theme.colors.GRAY};
         color: ${(props) => props.init? props.theme.colors.GRAY : props.theme.colors.BLACK};
     }
-
     &:hover{
         background-color: ${(props)=> props.theme.colors.BLUE};
         color: ${(props)=> props.theme.colors.GRAY};

@@ -1,12 +1,14 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { useForm } from "react-hook-form";
 import {useRouter} from 'next/router'
 import { useRecoilState } from "recoil";
-import { jwtToken } from "../../atoms";
+import { jwtToken, loginAtom } from "../../atoms";
 import * as AWS from 'aws-sdk';
 import swal from 'sweetalert';
 
 export default function Write(){
+
+    const [login, setLogin] = useRecoilState(loginAtom);
     let today = new Date();   
 
     // let year = today.getFullYear(); // 년도
@@ -109,6 +111,9 @@ export default function Write(){
 
 return (
     <Container>
+
+        {login === false ? <Contents><Question>글을 작성하실 수 없습니다. <br/> 로그인 후 이용해주세요. </Question></Contents>
+        :
         <Contents>
             <Form   
                 onSubmit={handleSubmit(onSubmit)}
@@ -194,6 +199,7 @@ return (
                 <Btn>글쓰기</Btn>
             </Form>
         </Contents>
+    }
     </Container>
 );
 }
@@ -246,4 +252,17 @@ const Btn = styled.button`
     text-decoration: none;
     padding: 10px;
     cursor: pointer;
+`;
+
+const Animation = keyframes`
+    from { transform: translateY(15px); opacity: 0.5;}
+    to { transform: translateY(0); opacity: 1;}
+ `;
+
+const Question = styled.div`
+    letter-spacing: -3px;
+    font-size: 50px;
+    font-weight: bold;
+    animation-name: ${Animation};
+    animation-duration: 1s;
 `;

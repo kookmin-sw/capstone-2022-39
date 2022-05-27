@@ -12,9 +12,8 @@ export default function nodeTitle(){
                 <Block>
                     <Title>{router.query.title}</Title>
                     <Btns>
-                        <Btn1><span>{router.query.wages}</span></Btn1>
-                        {URL? <Link href={URL}><Btn>본문보기</Btn></Link> : null }
-                    </Btns>
+                    {URL? <Link href={URL}><Btn>본문보기</Btn></Link> : null }
+                </Btns>
                 </Block>
                 <Block2>
                     <CategoryBox>
@@ -22,6 +21,7 @@ export default function nodeTitle(){
                         <Li><strong>근무지역:</strong>{router.query.workplace}</Li>
                         <Li><strong>모집인원:</strong>{router.query.recruitment_staff}</Li>
                         <Li><strong>분야:</strong>{router.query.recruitment_field}</Li>
+                        <Li><strong>임금:</strong>{router.query.wages}</Li>
                     </CategoryBox>
 
                     <CategoryBox>
@@ -30,6 +30,7 @@ export default function nodeTitle(){
                         <Li><strong>연락처:</strong>{router.query.contact_address}</Li>
                     </CategoryBox>
                 </Block2>
+            
                 <Block2>
                     <CategoryBox1>
                             <Category>근무사항</Category>
@@ -68,7 +69,6 @@ const Block = styled.div`
 `;
 
 const Btns = styled.div`
-    display: inline-block;
     margin-left: auto;
 `;
 
@@ -80,6 +80,7 @@ const Title = styled.div`
 `;
 
 const Btn = styled.button`
+    height: 100%;
     font-size: 20px;
     background-color: #1070FF;
     border: none;
@@ -87,7 +88,7 @@ const Btn = styled.button`
     font-weight: 800px;
     color: #FFFFFF;
     padding: 15px;
-    width: 180px;
+    width: 200px;
     text-align: center;
     border-width: 0.1px;
     text-decoration: none;
@@ -102,19 +103,7 @@ const Block2 = styled.div`
     justify-content: space-between;
     margin-top: 50px;
 `;
-const Btn1 = styled(Btn)`
-    color: ${(props)=> props.theme.colors.BLUE};
-    background-color: ${(props)=> props.theme.colors.GRAY};
-    cursor: default;
-    &:hover{
-        background-color: ${(props)=> props.theme.colors.GRAY};
-    }
-`
-// const Line = styled.div`
-//     width: 5px;
-//     color: red;
-//     height: 100%;
-// `;
+
 const CategoryBox = styled.div`
     display: inline-block;
     width: 500px;

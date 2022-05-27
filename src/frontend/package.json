@@ -13,6 +13,7 @@
     "@qiuz/react-image-map": "^1.1.3",
     "aws-sdk": "^2.1140.0",
     "axios": "^0.27.2",
+    "intercept-stdout": "^0.1.2",
     "next": "12.1.4",
     "react": "18.0.0",
     "react-dom": "18.0.0",
